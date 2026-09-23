@@ -62,21 +62,19 @@
 
   /* ---------- Hero ---------- */
   :root { --intro: 0s; }
-  .hero { background: var(--welcome); padding-block: 16px 56px; overflow: hidden; }
-  /* Same composition as the blog banner: the app on a phone at left, the tagline and the crowd of friends at right. */
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.6fr); gap: clamp(24px, 5vw, 72px); align-items: center; }
-  .hero-phone { width: min(230px, 100%); justify-self: center; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: var(--intro); }
+  .hero { background: var(--welcome); padding-block: 40px 0; overflow: hidden; }
   .hero-copy { text-align: center; }
+  /* The friends stand on the line where the purple hero meets the cream page. */
   .hero .tagline {
     /* The app's system font in italic; bold here, like the banner. */
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    font-style: italic; font-weight: 700; font-size: clamp(1.9rem, 4.2vw, 3.1rem);
+    font-style: italic; font-weight: 700; font-size: clamp(2.1rem, 5vw, 3.4rem);
     line-height: 1.1; letter-spacing: -0.01em;
-    animation: rise .7s both; animation-delay: calc(var(--intro) + .15s);
+    animation: rise .7s both; animation-delay: var(--intro);
   }
-  .crowd { width: 100%; max-width: 520px; margin: 26px auto 0; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .35s); }
-  .hero .pitch { font-size: 1.15rem; max-width: 34ch; margin: 22px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .6s); }
-  .cta-row { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 22px; animation: rise .7s both; animation-delay: calc(var(--intro) + .75s); }
+  .crowd { width: 100%; max-width: 620px; margin: 44px auto -2px; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .5s); transform-origin: bottom center; }
+  .hero .pitch { font-size: 1.2rem; max-width: 32ch; margin: 16px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .15s); }
+  .cta-row { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 26px; animation: rise .7s both; animation-delay: calc(var(--intro) + .3s); }
   .soon-tag { font-size: .8rem; font-weight: 700; color: var(--purple-deep); background: rgba(255,255,255,.6); border-radius: 999px; padding: 6px 12px; }
 
 
@@ -88,7 +86,7 @@
   /* ---------- Problem ---------- */
   /* The problem section is a scroll stage: tall on desktop, with the content pinned
      while the scraps slip away and the Closer card lands in their place. */
-  .problem { padding-block: 56px 48px; overflow-x: clip; }
+  .problem { padding-block: 64px 48px; overflow-x: clip; }
   .problem .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
   .problem .lede { margin-top: 20px; }
   .problem .kicker { margin-top: 18px; font-weight: 600; color: var(--purple-ink); transition: color .4s ease; }
@@ -216,7 +214,7 @@
     display: inline-block; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
     padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
   }
-  .stage { border-radius: 32px; padding: 32px 24px 0; display: flex; justify-content: center; overflow: hidden; }
+  .stage { background: var(--welcome); border-radius: 32px; padding: 32px 24px 0; display: flex; justify-content: center; overflow: hidden; }
   .phone {
     width: min(270px, 70vw); border: 9px solid var(--ink); border-bottom: 0;
     border-radius: 38px 38px 0 0; overflow: hidden; background: var(--ink);
@@ -263,8 +261,6 @@
   footer img { height: 22px; width: auto; opacity: .85; }
 
   @media (max-width: 760px) {
-    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
-    .hero-phone { width: 140px; }
     body { font-size: 16px; }
     .wrap { padding-inline: 18px; }
     .problem .grid, .feature, .cta .grid { grid-template-columns: 1fr; gap: 32px; }
@@ -293,14 +289,11 @@
 </nav>
 
 <header class="hero">
-  <div class="wrap hero-grid">
-    <img class="hero-phone" src="img/hero-phone.png" alt="Closer's welcome screen on an iPhone">
-    <div class="hero-copy">
-      <h1 class="tagline">for friends who care.</h1>
-      <img class="crowd" src="img/crowd.png" alt="A row of hand-drawn friends in pairs, hugging and standing arm in arm">
-      <p class="pitch">Closer helps you hold onto the details for the people who matter most.</p>
-      <div class="cta-row"><a class="btn" href="#early">Get early access</a><span class="soon-tag">Coming soon to iPhone</span></div>
-    </div>
+  <div class="wrap hero-copy">
+    <h1 class="tagline">for friends who care.</h1>
+    <p class="pitch">Closer helps you hold onto the details for the people who matter most.</p>
+    <div class="cta-row"><a class="btn" href="#early">Get early access</a><span class="soon-tag">Coming soon to iPhone</span></div>
+    <img class="crowd" src="img/crowd.png" alt="A row of hand-drawn friends in pairs, hugging and standing arm in arm">
   </div>
 </header>
 
@@ -377,7 +370,7 @@
         <h2>Capture it in seconds.</h2>
         <p>Tap +, type or talk, and pick their name. No hunting for the right screen, so the detail gets saved before you forget it.</p>
       </div>
-      <div class="stage tone-orange reveal"><div class="phone"><img src="img/new-update.jpg" alt="Closer's New Update screen with a note about a friend's promotion"></div></div>
+      <div class="stage reveal"><div class="phone"><img src="img/new-update.jpg" alt="Closer's New Update screen with a note about a friend's promotion"></div></div>
     </article>
 
     <article class="feature">
@@ -386,7 +379,7 @@
         <h2>Check in on your terms.</h2>
         <p>Weekly for your best friend, every few months for your college crew. Set a rhythm for each person, and Closer nudges you when it's time. Every Sunday, you'll get a preview of the week's nudges and occasions.</p>
       </div>
-      <div class="stage tone-purple reveal"><div class="phone"><img src="img/home-nudges.jpg" alt="Closer's home screen showing check-in nudges for three friends"></div></div>
+      <div class="stage reveal"><div class="phone"><img src="img/home-nudges.jpg" alt="Closer's home screen showing check-in nudges for three friends"></div></div>
     </article>
 
     <article class="feature">
@@ -395,7 +388,7 @@
         <h2>Everything about them, in one place.</h2>
         <p>Life updates, family, where they live, and when you last caught up, all on one page instead of scattered across your apps.</p>
       </div>
-      <div class="stage tone-blue reveal"><div class="phone"><img src="img/gwen-top-half.jpg" alt="A friend's profile in Closer with updates, nudges, and family"></div></div>
+      <div class="stage reveal"><div class="phone"><img src="img/gwen-top-half.jpg" alt="A friend's profile in Closer with updates, nudges, and family"></div></div>
     </article>
 
     <article class="feature">
@@ -404,7 +397,7 @@
         <h2>Remember what they love.</h2>
         <p>Tag hobbies and friend groups so you can find everyone in your book club or who loves to hike. And save the birthdays and anniversaries that matter to them.</p>
       </div>
-      <div class="stage tone-green reveal"><div class="phone"><img src="img/gwen-occasions.jpg" alt="A friend's tags and occasions in Closer, including hobbies and a birthday"></div></div>
+      <div class="stage reveal"><div class="phone"><img src="img/gwen-occasions.jpg" alt="A friend's tags and occasions in Closer, including hobbies and a birthday"></div></div>
     </article>
   </section>
 
