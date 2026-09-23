@@ -65,11 +65,11 @@
   :root { --intro: 1.9s; }
   :root.no-splash { --intro: 0s; }
   .hero { background: var(--welcome); padding-block: 56px 96px; text-align: center; overflow: hidden; }
-  .doodles { display: flex; justify-content: center; align-items: flex-end; gap: clamp(10px, 3vw, 34px); flex-wrap: wrap; }
+  .doodles { margin-top: 34px; display: flex; justify-content: center; align-items: flex-end; gap: clamp(10px, 3vw, 34px); flex-wrap: wrap; }
   .doodles img {
     height: clamp(72px, 12vw, 144px); width: auto;
     animation: pop .8s cubic-bezier(.34,1.56,.64,1) both;
-    animation-delay: calc(var(--intro) + var(--i) * .09s);
+    animation-delay: calc(var(--intro) + .25s + var(--i) * .09s);
     transition: transform .25s ease;
   }
   .doodles img:hover { transform: translateY(-6px) rotate(-4deg); }
@@ -77,8 +77,8 @@
     /* Same as the app's welcome screen: the iPhone system font (San Francisco), regular italic. */
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     font-style: italic; font-weight: 400; font-size: clamp(2.2rem, 5.6vw, 3.9rem);
-    line-height: 1.1; letter-spacing: -0.01em; margin-top: 30px;
-    animation: rise .7s both; animation-delay: calc(var(--intro) + .45s);
+    line-height: 1.1; letter-spacing: -0.01em;
+    animation: rise .7s both; animation-delay: var(--intro);
   }
   .hero .pitch { font-size: 1.2rem; max-width: 30ch; margin: 18px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .6s); }
   .hero .btn { margin-top: 30px; animation: rise .7s both; animation-delay: calc(var(--intro) + .75s); }
@@ -325,6 +325,7 @@
 
 <header class="hero">
   <div class="wrap">
+    <h1 class="tagline">for friends who care.</h1>
     <div class="doodles" aria-hidden="true">
       <img src="img/m-hug.png" alt="" style="--i:0">
       <img src="img/m-checkin.png" alt="" style="--i:1">
@@ -332,7 +333,6 @@
       <img src="img/m-chatty.png" alt="" style="--i:3">
       <img src="img/m-love-purple.png" alt="" style="--i:4">
     </div>
-    <h1 class="tagline">for friends who care.</h1>
     <p class="pitch">Closer helps you hold onto the details for the people who matter most.</p>
     <a class="btn" href="#early">Get early access</a>
     <p class="soon">Coming soon to iPhone</p>
