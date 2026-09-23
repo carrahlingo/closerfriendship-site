@@ -1,0 +1,530 @@
+<title>Closer Landing Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Manrope:wght@400;500;600;700&family=Caveat:wght@600&display=swap">
+<style>
+  /* Single light look on purpose: matches the app's welcome screen and brand colors. */
+  :root {
+    --welcome: #e6e1ff;
+    --lavender: #c0b5ff;
+    --purple-ink: #6a5cbc;
+    --purple-deep: #31218c;
+    --cream: #faf7f2;
+    --card: #ffffff;
+    --ink: #2b2420;
+    --muted: #7d7268;
+    --line: #efe7dd;
+    --orange-bg: #f9dcd2; --orange-ink: #7a1d00;
+    --blue-bg: #d8e6ff;   --blue-ink: #4152a7;
+    --green-bg: #e4f1e6;  --green-ink: #3f7350;
+    --display: "Fredoka", "Nunito", ui-rounded, system-ui, sans-serif;
+    --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--purple-ink); }
+  a:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 3px solid var(--purple-ink); outline-offset: 3px;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-inline: 24px; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.1; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+  h2 { font-size: clamp(2rem, 4.6vw, 3.1rem); }
+  h3 { font-size: 1.35rem; }
+  p { margin: 0; }
+  .lede { font-size: 1.15rem; color: var(--muted); max-width: 34ch; }
+
+  /* ---------- Nav ---------- */
+  .nav { background: var(--welcome); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-block: 18px; }
+  .nav img { height: 26px; width: auto; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--body); font-weight: 700; font-size: 1rem;
+    background: var(--ink); color: var(--lavender);
+    border: 0; border-radius: 14px; padding: 14px 24px;
+    text-decoration: none; cursor: pointer;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn--small { padding: 10px 18px; font-size: .92rem; border-radius: 12px; }
+
+  /* ---------- Hero ---------- */
+  .hero { background: var(--welcome); padding-block: 24px 88px; text-align: center; overflow: hidden; }
+  .hero .mascot { width: min(300px, 62vw); margin: 0 auto; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; }
+  .hero .wordmark { width: min(300px, 62vw); margin: 18px auto 0; animation: rise .7s .35s ease-out both; }
+  .hero .tagline { font-style: italic; font-size: 1.3rem; margin-top: 10px; animation: rise .7s .5s ease-out both; }
+  .hero .pitch { font-size: 1.2rem; max-width: 30ch; margin: 28px auto 0; animation: rise .7s .65s ease-out both; }
+  .hero .btn { margin-top: 30px; animation: rise .7s .8s ease-out both; }
+  .hero .soon { margin-top: 14px; font-size: .9rem; color: var(--purple-deep); opacity: .75; animation: rise .7s .9s ease-out both; }
+
+  @keyframes pop { from { transform: scale(.6) translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes rise { from { transform: translateY(28px); opacity: 0; } to { transform: none; opacity: 1; } }
+  /* Scroll reveal: elements rest visible; the class only plays the entrance when they arrive. */
+  .reveal.in { animation: rise .8s ease-out both; }
+
+  /* ---------- Problem ---------- */
+  /* The problem section is a scroll stage: tall on desktop, with the content pinned
+     while the scraps slip away and the Closer card lands in their place. */
+  .problem { padding-block: 96px 88px; overflow-x: clip; }
+  .problem .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .problem .lede { margin-top: 20px; }
+  .problem .kicker { margin-top: 18px; font-weight: 600; color: var(--purple-ink); transition: color .4s ease; }
+  .problem .kicker .arrow { display: inline-block; transition: transform .4s ease; }
+  .problem.is-home .kicker .arrow { transform: translateX(6px); }
+  @media (min-width: 761px) {
+    .problem.stage-on { height: 230vh; padding-block: 0; }
+    .problem.stage-on .grid { position: sticky; top: env(safe-area-inset-top, 0px); height: 100vh; }
+  }
+
+  .mess { position: relative; height: 440px; }
+  .scrap { position: absolute; will-change: transform, opacity; }
+  /* Inner layer carries the base tilt + gentle drift; the outer layer takes the scroll-driven slip. */
+  .scrap-in {
+    transform: rotate(var(--r)); animation: drift 7s ease-in-out infinite;
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(43,36,32,.09), 0 1px 2px rgba(43,36,32,.06);
+    font-size: .93rem; line-height: 1.4;
+  }
+  .scrap p { margin: 0; }
+  .app { display: flex; align-items: center; gap: 8px; font-size: .72rem; font-weight: 700; color: var(--muted); }
+  .when { font-size: .7rem; color: #a79c90; }
+
+  /* Messages */
+  .scrap--text { top: 0; left: 2%; width: 60%; }
+  .scrap--text .scrap-in { --r: -3deg; padding: 12px 14px 10px; }
+  .scrap--text .app { justify-content: space-between; margin-bottom: 8px; }
+  .bubble { display: inline-block; background: #e9e7ee; border-radius: 18px 18px 18px 5px; padding: 8px 13px; }
+  .scrap--text .when { display: block; margin-top: 6px; }
+
+  /* Instagram DM */
+  .scrap--dm { top: 22%; right: 0; width: 56%; }
+  .scrap--dm .scrap-in { --r: 4deg; padding: 12px 14px; animation-delay: -2s; }
+  .ig-ring { width: 26px; height: 26px; border-radius: 50%; padding: 2px; background: conic-gradient(#f7b267, #f25f8a, #a05cf0, #f7b267); flex: none; }
+  .ig-ring span { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: var(--card); font-size: .6rem; font-weight: 800; color: var(--ink); border: 2px solid var(--card); }
+  .scrap--dm .app { margin-bottom: 8px; }
+  .scrap--dm .app b { color: var(--ink); font-weight: 700; font-size: .8rem; }
+  .scrap--dm .when { display: block; margin-top: 6px; text-align: right; }
+
+  /* Notes */
+  .scrap--notes { top: 43%; left: 0; width: 50%; }
+  .scrap--notes .scrap-in {
+    --r: -5deg; animation-delay: -4s; overflow: hidden; padding: 0 0 8px;
+    background: #fffdf5 repeating-linear-gradient(to bottom, transparent 0 25px, #efe6cf 25px 26px);
+    background-position: 0 38px;
+  }
+  .notes-bar { display: flex; justify-content: space-between; padding: 8px 14px 6px; background: #fffdf5; color: #d9a400; font-weight: 700; font-size: .78rem; }
+  .scrap--notes p { padding: 0 14px; line-height: 26px; }
+  .notes-title { font-weight: 800; }
+  .struck { text-decoration: line-through; color: #b3a898; }
+
+  /* Sticky note */
+  .scrap--sticky { top: 50%; right: 4%; width: 150px; }
+  .scrap--sticky .scrap-in {
+    --r: 6deg; animation-delay: -1s; position: relative; border: 0; border-radius: 2px 2px 2px 18px;
+    min-height: 124px; padding: 22px 16px 16px;
+    background: linear-gradient(135deg, #f4f6d4 0%, #eef1c3 100%);
+    box-shadow: 0 12px 20px rgba(92,95,14,.14);
+    font-family: "Caveat", "Bradley Hand", cursive; font-size: 1.45rem; line-height: 1.15; color: #4a4c10;
+  }
+  .tape { position: absolute; top: -10px; left: 50%; width: 64px; height: 22px; transform: translateX(-50%) rotate(-4deg); background: rgba(255,255,255,.55); border: 1px solid rgba(43,36,32,.06); }
+
+  /* Group chat */
+  .scrap--group { bottom: 0; left: 12%; width: 60%; }
+  .scrap--group .scrap-in { --r: -1deg; animation-delay: -3s; padding: 12px 14px; display: flex; align-items: center; gap: 12px; }
+  .faces { display: flex; flex: none; }
+  .faces i { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--card); margin-left: -8px; }
+  .faces i:first-child { margin-left: 0; }
+  .group-name { font-weight: 700; font-size: .88rem; }
+  .group-last { font-size: .8rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .badge { margin-left: auto; flex: none; background: #e5483a; color: #fff; font-weight: 800; font-size: .75rem; border-radius: 999px; padding: 2px 8px; }
+  .scrap--group .scrap-in > div:not(.faces) { min-width: 0; flex: 1; text-align: left; }
+
+  @keyframes drift {
+    0%, 100% { transform: rotate(var(--r)) translateY(0); }
+    50% { transform: rotate(var(--r)) translateY(-6px); }
+  }
+
+  /* The payoff: Closer's real Home screen, rebuilt in HTML with the same friends from the mess */
+  .home-card {
+    position: absolute; left: 50%; bottom: 0; width: 262px; height: 440px;
+    transform: translate(-50%, 40px); opacity: 0; pointer-events: none;
+    border: 9px solid var(--ink); border-bottom: 0; border-radius: 40px 40px 0 0;
+    background: #faf7f2; overflow: hidden; padding: 10px 14px 0;
+    box-shadow: 0 30px 60px rgba(49,33,140,.18);
+    font-family: var(--body); color: #2b2420;
+  }
+  .hs-status { display: flex; justify-content: space-between; align-items: center; font-size: .72rem; font-weight: 700; padding: 0 6px; height: 22px; }
+  .hs-island { width: 72px; height: 20px; border-radius: 12px; background: var(--ink); }
+  .hs-bars { letter-spacing: 1px; font-size: .6rem; }
+  .hs-head { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+  .hs-me { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #d9b48f, #8a5a3c); }
+  .hs-head img { height: 17px; width: auto; }
+  .hs-gear { color: #9a8f84; font-size: .95rem; }
+  /* Updates tab, list view (matches app/(tabs)/updates.tsx) */
+  .up-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-top: 18px; }
+  .up-title { font-family: var(--display); font-weight: 600; font-size: 1.3rem; line-height: 1.1; }
+  .up-sub { font-size: .66rem; color: #9a8f84; margin-top: 3px; }
+  .up-toggle { flex: none; display: flex; background: #efe7dd; border-radius: 10px; padding: 2px; font-size: .6rem; font-weight: 700; }
+  .up-toggle span { padding: 4px 7px; border-radius: 8px; color: #9a8f84; }
+  .up-toggle .on { background: #fff; color: #6a5cbc; }
+  .up-section { font-family: var(--display); font-weight: 600; font-size: .78rem; color: #9a8f84; margin: 14px 0 8px; }
+  .up-row { display: flex; }
+  .up-rail { width: 26px; flex: none; display: flex; flex-direction: column; align-items: center; }
+  .up-av { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: .52rem; font-weight: 800; flex: none; }
+  .up-line { width: 2px; flex: 1; margin-top: 5px; border-radius: 1px; background: #efe7dd; }
+  .up-body { flex: 1; min-width: 0; margin-left: 9px; padding-bottom: 11px; }
+  .up-body .who { font-size: .74rem; font-weight: 800; margin-top: 3px; }
+  .up-body .who span, .up-date { font-weight: 500; color: #9a8f84; font-size: .64rem; }
+  .up-body p { font-size: .72rem; line-height: 1.4; margin-top: 1px; }
+
+  /* No scroll stage (reduced motion or no script): show the answer resting over a dimmed mess. */
+  .problem.static .scrap { opacity: .28; }
+  .problem.static .home-card { opacity: 1; transform: translate(-50%, 0); }
+
+  /* ---------- Features ---------- */
+  .features { padding-block: 24px 40px; }
+  .feature {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    padding-block: 56px;
+  }
+  .feature:nth-child(even) .copy { order: 2; }
+  .feature .copy p { margin-top: 16px; color: var(--muted); font-size: 1.1rem; max-width: 36ch; }
+  .label {
+    display: inline-block; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .stage { border-radius: 36px; padding: 44px 24px 0; display: flex; justify-content: center; overflow: hidden; }
+  .phone {
+    width: min(270px, 70vw); border: 9px solid var(--ink); border-bottom: 0;
+    border-radius: 38px 38px 0 0; overflow: hidden; background: var(--ink);
+    aspect-ratio: 270 / 470;
+  }
+  .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .tone-purple { background: var(--welcome); color: var(--purple-deep); }
+  .tone-orange { background: var(--orange-bg); color: var(--orange-ink); }
+  .tone-blue   { background: var(--blue-bg);   color: var(--blue-ink); }
+  .tone-green  { background: var(--green-bg);  color: var(--green-ink); }
+
+  /* ---------- Moments ---------- */
+  .moments { padding-block: 72px 96px; }
+  .moments header { max-width: 40ch; }
+  .moments header p { margin-top: 14px; color: var(--muted); font-size: 1.1rem; }
+  .moment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 40px; }
+  .moment {
+    border-radius: 24px; padding: 28px 24px 28px 28px;
+    display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center;
+  }
+  /* Same box for every drawing, so tall and wide ones read at the same size. */
+  .moment img { width: 130px; height: 130px; object-fit: contain; object-position: center bottom; transition: transform .25s ease; }
+  .tone-citrus { background: #f3f5d6; color: #5c5f0e; }
+  .moment:hover img { transform: translateY(-4px) rotate(-3deg); }
+  .moment h3 { color: inherit; }
+  .moment p { margin-top: 10px; color: var(--ink); opacity: .82; }
+
+  /* ---------- Private ---------- */
+  .private { background: var(--ink); color: var(--cream); padding-block: 88px; text-align: center; }
+  .private h2 { color: var(--lavender); }
+  .private p { margin: 18px auto 0; max-width: 44ch; font-size: 1.15rem; opacity: .85; }
+
+  /* ---------- CTA ---------- */
+  .cta { background: var(--welcome); padding-block: 88px; }
+  .cta .grid { display: grid; grid-template-columns: auto 1fr; gap: 48px; align-items: center; }
+  .cta img { width: 180px; }
+  .cta p { margin-top: 14px; font-size: 1.15rem; max-width: 40ch; }
+  form { display: flex; gap: 10px; margin-top: 26px; flex-wrap: wrap; max-width: 480px; }
+  input[type="email"] {
+    flex: 1 1 220px; font: inherit; padding: 14px 16px; border-radius: 14px;
+    border: 2px solid var(--lavender); background: var(--card); color: var(--ink); min-width: 0;
+  }
+  .form-note { margin-top: 12px; font-size: .88rem; color: var(--purple-deep); opacity: .8; }
+  .thanks { margin-top: 16px; font-weight: 600; color: var(--purple-deep); }
+
+  footer { padding-block: 36px; }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: .9rem; }
+  footer img { height: 22px; width: auto; opacity: .85; }
+
+  @media (max-width: 760px) {
+    body { font-size: 16px; }
+    .wrap { padding-inline: 18px; }
+    .problem .grid, .feature, .cta .grid { grid-template-columns: 1fr; gap: 32px; }
+    .feature:nth-child(even) .copy { order: 0; }
+    .feature { padding-block: 36px; }
+    .moment-grid { grid-template-columns: 1fr; }
+    .moment img { width: 92px; height: 92px; }
+    .mess { height: 460px; }
+    .scrap--text { width: 80%; }
+    .scrap--dm { top: 20%; width: 74%; }
+    .scrap--notes { top: 42%; width: 66%; }
+    .scrap--sticky { top: 50%; right: 0; width: 128px; }
+    .scrap--sticky .scrap-in { min-height: 106px; font-size: 1.28rem; }
+    .scrap--group { left: 10%; width: 78%; }
+    .cta img { width: 120px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <img src="img/wordmark.png" alt="Closer">
+    <a class="btn btn--small" href="#early">Get early access</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <img class="mascot" src="img/mascot.png" alt="Two smiling purple friends, one with an arm around the other">
+    <img class="wordmark" src="img/wordmark.png" alt="closer">
+    <p class="tagline">for friends who care.</p>
+    <p class="pitch">Closer helps you hold onto the details for the people who matter most.</p>
+    <a class="btn" href="#early">Get early access</a>
+    <p class="soon">Coming soon to iPhone</p>
+  </div>
+</header>
+
+<main>
+  <section class="problem" id="problem" aria-labelledby="problem-h">
+    <div class="wrap grid">
+      <div>
+        <h2 id="problem-h">The details slip.</h2>
+        <p class="lede">We all want to be the friend people call first. But between the group chats, the DMs, and everything else, the small stuff gets lost.</p>
+        <p class="kicker">Closer gives it a home. <span class="arrow" aria-hidden="true">→</span></p>
+      </div>
+      <div class="mess" role="img" aria-label="Details about friends scattered across a text, an Instagram DM, a Notes list, a sticky note, and a busy group chat, which slip away and are replaced by the same details saved in Closer's Updates tab">
+        <div class="scrap scrap--text" data-dx="-75" data-dy="-10" data-rot="-38">
+          <div class="scrap-in">
+            <div class="app"><span>Messages</span><span class="when">Aug 29</span></div>
+            <p class="bubble">wait is Maya back from leave yet??</p>
+            <span class="when">Read 3 weeks ago</span>
+          </div>
+        </div>
+        <div class="scrap scrap--dm" data-dx="70" data-dy="-5" data-rot="34">
+          <div class="scrap-in">
+            <div class="app"><span class="ig-ring"><span>D</span></span><b>dani.makes</b></div>
+            <p>picked the logo designer!! launching in the spring 🎉</p>
+            <span class="when">Seen Aug 12</span>
+          </div>
+        </div>
+        <div class="scrap scrap--notes" data-dx="-90" data-dy="20" data-rot="-30">
+          <div class="scrap-in">
+            <div class="notes-bar"><span>‹ Notes</span><span>···</span></div>
+            <p class="notes-title">friend stuff</p>
+            <p>Jess new job, starts Mon?</p>
+            <p class="struck">Carlos bday Oct 8</p>
+            <p>Gwen's mom surgery, check in</p>
+          </div>
+        </div>
+        <div class="scrap scrap--sticky" data-dx="65" data-dy="35" data-rot="42">
+          <div class="scrap-in"><span class="tape"></span>Theo's 1st bday → send gift??</div>
+        </div>
+        <div class="scrap scrap--group" data-dx="-45" data-dy="45" data-rot="-24">
+          <div class="scrap-in">
+            <div class="faces"><i style="background:#c0b5ff"></i><i style="background:#ff7144"></i><i style="background:#a0bcee"></i></div>
+            <div><p class="group-name">College girls</p><p class="group-last">Jess: ok who's coming to the wedding</p></div>
+            <span class="badge">142</span>
+          </div>
+        </div>
+
+        <div class="home-card" aria-hidden="true">
+          <div class="hs-status"><span>9:41</span><span class="hs-island"></span><span class="hs-bars">▮▮▮ ▰</span></div>
+          <div class="up-head">
+            <div><p class="up-title">Updates</p><p class="up-sub">Everyone you've kept up with lately</p></div>
+            <div class="up-toggle"><span>Grid</span><span class="on">List</span></div>
+          </div>
+          <p class="up-section">This month</p>
+          <div class="up-row"><div class="up-rail"><span class="up-av" style="background:#9381f8;color:#110070">GP</span><span class="up-line"></span></div>
+            <div class="up-body"><p class="who">Gwen Pal <span>· Sep 21</span></p><p>Her mom's back surgery went well. Home by the weekend.</p></div></div>
+          <div class="up-row"><div class="up-rail"><span class="up-av" style="background:#d8e6ff;color:#4152a7">MK</span><span class="up-line"></span></div>
+            <div class="up-body"><p class="who">Maya Klein <span>· Sep 18</span></p><p>Back from leave on the 22nd! Wants to grab lunch her first week.</p></div></div>
+          <div class="up-row"><div class="up-rail"><span class="up-line" style="margin-top:0"></span></div>
+            <div class="up-body"><p class="up-date">Sep 9</p><p>Theo turns 1 on Oct 2. He's obsessed with board books.</p></div></div>
+          <div class="up-row"><div class="up-rail"><span class="up-av" style="background:#ff7144;color:#2b1000">DA</span><span class="up-line"></span></div>
+            <div class="up-body"><p class="who">Dani Alvarez <span>· Sep 2</span></p><p>Picked a logo designer! Bakery launches in the spring.</p></div></div>
+          <p class="up-section">August</p>
+          <div class="up-row"><div class="up-rail"><span class="up-av" style="background:#e0e446;color:#3c4718">JR</span><span class="up-line"></span></div>
+            <div class="up-body"><p class="who">Jess Reyes <span>· Aug 28</span></p><p>Starts at the design studio Monday. Nervous but excited.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features wrap" aria-label="Features">
+    <article class="feature">
+      <div class="copy reveal">
+        <span class="label tone-orange">Quick capture</span>
+        <h2>Capture it in seconds.</h2>
+        <p>Tap +, type or talk, and pick their name. No hunting for the right screen, so the detail gets saved before you forget it.</p>
+      </div>
+      <div class="stage tone-orange reveal"><div class="phone"><img src="img/new-update.jpg" alt="Closer's New Update screen with a note about a friend's promotion"></div></div>
+    </article>
+
+    <article class="feature">
+      <div class="copy reveal">
+        <span class="label tone-purple">Nudges</span>
+        <h2>Check in on your terms.</h2>
+        <p>Weekly for your best friend, every few months for your college crew. Set a rhythm for each person, and Closer nudges you when it's time. Every Sunday, you'll get a preview of the week's nudges and occasions.</p>
+      </div>
+      <div class="stage tone-purple reveal"><div class="phone"><img src="img/home-nudges.jpg" alt="Closer's home screen showing check-in nudges for three friends"></div></div>
+    </article>
+
+    <article class="feature">
+      <div class="copy reveal">
+        <span class="label tone-blue">Profiles</span>
+        <h2>Everything about them, in one place.</h2>
+        <p>Life updates, family, where they live, and when you last caught up, all on one page instead of scattered across your apps.</p>
+      </div>
+      <div class="stage tone-blue reveal"><div class="phone"><img src="img/gwen-top-half.jpg" alt="A friend's profile in Closer with updates, nudges, and family"></div></div>
+    </article>
+
+    <article class="feature">
+      <div class="copy reveal">
+        <span class="label tone-green">Tags &amp; occasions</span>
+        <h2>Remember what they love.</h2>
+        <p>Tag hobbies and friend groups so you can find everyone in your book club or who loves to hike. And save the birthdays and anniversaries that matter to them.</p>
+      </div>
+      <div class="stage tone-green reveal"><div class="phone"><img src="img/gwen-occasions.jpg" alt="A friend's tags and occasions in Closer, including hobbies and a birthday"></div></div>
+    </article>
+  </section>
+
+  <section class="moments" aria-labelledby="moments-h">
+    <div class="wrap">
+      <header class="reveal">
+        <h2 id="moments-h">Made for moments like these.</h2>
+        <p>The times when remembering the small stuff matters most.</p>
+      </header>
+      <div class="moment-grid">
+        <div class="moment tone-orange reveal">
+          <div>
+            <h3>Catching up at the wedding.</h3>
+            <p>Walk in knowing whose kids started kindergarten and who just moved across the country.</p>
+          </div>
+          <img src="img/m-hug.png" alt="" aria-hidden="true">
+        </div>
+        <div class="moment tone-blue reveal">
+          <div>
+            <h3>Showing up through a hard year.</h3>
+            <p>Keep track of your check-ins after a loss, and what they shared last time you talked.</p>
+          </div>
+          <img src="img/m-checkin.png" alt="" aria-hidden="true">
+        </div>
+        <div class="moment tone-purple reveal">
+          <div>
+            <h3>Celebrating the new baby.</h3>
+            <p>Remember the baby's name, the birthday, and when you promised to drop off dinner.</p>
+          </div>
+          <img src="img/m-love-purple.png" alt="" aria-hidden="true">
+        </div>
+        <div class="moment tone-citrus reveal">
+          <div>
+            <h3>Getting to know your neighbors.</h3>
+            <p>Save their names, their dog's name, and who offered to show you the best coffee spot in town.</p>
+          </div>
+          <img src="img/m-chatty.png" alt="" aria-hidden="true">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="private" aria-labelledby="private-h">
+    <div class="wrap reveal">
+      <h2 id="private-h">No feed. No followers. No streaks.</h2>
+      <p>Closer isn't a social network. It's a private space for the people you love, and your notes stay on your phone.</p>
+    </div>
+  </section>
+
+  <section class="cta" id="early" aria-labelledby="cta-h">
+    <div class="wrap grid">
+      <img src="img/celebrate-purple.png" alt="" aria-hidden="true">
+      <div class="reveal">
+        <h2 id="cta-h">Be one of the first.</h2>
+        <p>Closer is launching soon on iPhone. Join the early testers and help shape what it becomes.</p>
+        <form id="signup">
+          <label for="email" class="sr" style="position:absolute;left:-9999px">Email address</label>
+          <input type="email" id="email" name="email" placeholder="you@email.com" required autocomplete="email">
+          <button class="btn" type="submit">Join the list</button>
+        </form>
+        <p class="form-note">Preview only: this sign-up isn't connected yet.</p>
+        <p class="thanks" id="thanks" hidden>Thanks! In the live site, this is where your email gets saved.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/wordmark.png" alt="Closer">
+    <span>© 2026 Closer · closerfriendship.com</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('signup').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('thanks').hidden = false;
+  });
+  // "The details slip": as you scroll, the scraps slide and fade away, then the Closer card lands.
+  (function () {
+    var section = document.getElementById('problem');
+    var scraps = [].slice.call(section.querySelectorAll('.scrap'));
+    var card = section.querySelector('.home-card');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { section.classList.add('static'); return; }
+    var desktop = window.matchMedia('(min-width: 761px)');
+    function setStage() { section.classList.toggle('stage-on', desktop.matches); }
+    setStage();
+    if (desktop.addEventListener) desktop.addEventListener('change', function () { setStage(); update(); });
+    var clamp = function (v) { return Math.max(0, Math.min(1, v)); };
+    var ease = function (t) { return t * t * (3 - 2 * t); };
+    function progress() {
+      var r = section.getBoundingClientRect(), vh = window.innerHeight;
+      if (desktop.matches) return clamp(-r.top / Math.max(1, r.height - vh));
+      var m = section.querySelector('.mess').getBoundingClientRect();
+      return clamp((vh * 0.55 - m.top) / (vh * 0.6));
+    }
+    function update() {
+      var p = progress();
+      var vw = window.innerWidth / 100, vh = window.innerHeight / 100;
+      scraps.forEach(function (el, i) {
+        var t = ease(clamp((p - 0.08 - i * 0.06) / 0.45));
+        var dx = +el.dataset.dx * vw * t, dy = +el.dataset.dy * vh * t, rot = +el.dataset.rot * t;
+        el.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg)';
+        el.style.opacity = String(1 - clamp((t - 0.55) / 0.45));
+      });
+      var c = ease(clamp((p - 0.5) / 0.3));
+      card.style.opacity = String(c);
+      card.style.transform = 'translate(-50%, ' + (1 - c) * 60 + 'px)';
+      section.classList.toggle('is-home', c > 0.6);
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); }
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  // Slide-up on scroll. Content is visible at rest; this only replays the entrance
+  // for elements that start below the fold, when they arrive.
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      if (el.getBoundingClientRect().top > window.innerHeight) io.observe(el);
+    });
+  })();
+</script>
