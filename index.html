@@ -74,8 +74,10 @@
   }
   .doodles img:hover { transform: translateY(-6px) rotate(-4deg); }
   .hero .tagline {
-    font-family: var(--display); font-weight: 600; font-size: clamp(2.4rem, 6vw, 4.2rem);
-    line-height: 1.05; letter-spacing: -0.02em; margin-top: 30px;
+    /* Same as the app's welcome screen: the iPhone system font (San Francisco), regular italic. */
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-style: italic; font-weight: 400; font-size: clamp(2.2rem, 5.6vw, 3.9rem);
+    line-height: 1.1; letter-spacing: -0.01em; margin-top: 30px;
     animation: rise .7s both; animation-delay: calc(var(--intro) + .45s);
   }
   .hero .pitch { font-size: 1.2rem; max-width: 30ch; margin: 18px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .6s); }
@@ -90,7 +92,7 @@
   }
   .splash .s-guys { width: min(220px, 50vw); animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; }
   .splash .s-word { width: min(210px, 48vw); animation: rise .6s .3s ease-out both; }
-  .splash p { font-style: italic; font-size: 1.15rem; animation: rise .6s .45s ease-out both; }
+  .splash p { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif; font-style: italic; font-size: 1.15rem; animation: rise .6s .45s ease-out both; }
   @keyframes splash-out { to { opacity: 0; transform: scale(1.04); visibility: hidden; } }
   :root.no-splash .splash { display: none; }
 
