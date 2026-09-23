@@ -64,24 +64,21 @@
   /* Intro timing: the hero waits for the splash; a repeat visit (no splash) starts right away. */
   :root { --intro: 1.9s; }
   :root.no-splash { --intro: 0s; }
-  .hero { background: var(--welcome); padding-block: 56px 96px; text-align: center; overflow: hidden; }
-  .doodles { margin-top: 34px; display: flex; justify-content: center; align-items: flex-end; gap: clamp(10px, 3vw, 34px); flex-wrap: wrap; }
-  .doodles img {
-    height: clamp(72px, 12vw, 144px); width: auto;
-    animation: pop .8s cubic-bezier(.34,1.56,.64,1) both;
-    animation-delay: calc(var(--intro) + .25s + var(--i) * .09s);
-    transition: transform .25s ease;
-  }
-  .doodles img:hover { transform: translateY(-6px) rotate(-4deg); }
+  .hero { background: var(--welcome); padding-block: 40px 88px; overflow: hidden; }
+  /* Same composition as the blog banner: the app on a phone at left, the tagline and the crowd of friends at right. */
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr); gap: clamp(24px, 5vw, 72px); align-items: center; }
+  .hero-phone { width: min(300px, 100%); justify-self: center; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: var(--intro); }
+  .hero-copy { text-align: center; }
   .hero .tagline {
-    /* Same as the app's welcome screen: the iPhone system font (San Francisco), regular italic. */
+    /* The app's system font in italic; bold here, like the banner. */
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    font-style: italic; font-weight: 400; font-size: clamp(1.9rem, 4.6vw, 3.1rem);
+    font-style: italic; font-weight: 700; font-size: clamp(1.9rem, 4.2vw, 3.1rem);
     line-height: 1.1; letter-spacing: -0.01em;
-    animation: rise .7s both; animation-delay: var(--intro);
+    animation: rise .7s both; animation-delay: calc(var(--intro) + .15s);
   }
-  .hero .pitch { font-size: 1.2rem; max-width: 30ch; margin: 34px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .6s); }
-  .hero .btn { margin-top: 30px; animation: rise .7s both; animation-delay: calc(var(--intro) + .75s); }
+  .crowd { width: 100%; max-width: 560px; margin: 34px auto 0; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .35s); }
+  .hero .pitch { font-size: 1.2rem; max-width: 30ch; margin: 30px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .6s); }
+  .hero .btn { margin-top: 26px; animation: rise .7s both; animation-delay: calc(var(--intro) + .75s); }
   .hero .soon { margin-top: 14px; font-size: .9rem; color: var(--purple-deep); opacity: .75; animation: rise .7s both; animation-delay: calc(var(--intro) + .85s); }
 
   /* Splash: the app's welcome screen plays once, then lifts away. Pure CSS, so it always leaves. */
@@ -283,6 +280,8 @@
   footer img { height: 22px; width: auto; opacity: .85; }
 
   @media (max-width: 760px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+    .hero-phone { width: 170px; }
     body { font-size: 16px; }
     .wrap { padding-inline: 18px; }
     .problem .grid, .feature, .cta .grid { grid-template-columns: 1fr; gap: 32px; }
@@ -324,18 +323,15 @@
 </nav>
 
 <header class="hero">
-  <div class="wrap">
-    <h1 class="tagline">for friends who care.</h1>
-    <div class="doodles" aria-hidden="true">
-      <img src="img/m-hug.png" alt="" style="--i:0">
-      <img src="img/m-checkin.png" alt="" style="--i:1">
-      <img src="img/m-pose.png" alt="" style="--i:2">
-      <img src="img/m-chatty.png" alt="" style="--i:3">
-      <img src="img/m-love-purple.png" alt="" style="--i:4">
+  <div class="wrap hero-grid">
+    <img class="hero-phone" src="img/hero-phone.png" alt="Closer's welcome screen on an iPhone">
+    <div class="hero-copy">
+      <h1 class="tagline">for friends who care.</h1>
+      <img class="crowd" src="img/crowd.png" alt="A row of hand-drawn friends in pairs, hugging and standing arm in arm">
+      <p class="pitch">Closer helps you hold onto the details for the people who matter most.</p>
+      <a class="btn" href="#early">Get early access</a>
+      <p class="soon">Coming soon to iPhone</p>
     </div>
-    <p class="pitch">Closer helps you hold onto the details for the people who matter most.</p>
-    <a class="btn" href="#early">Get early access</a>
-    <p class="soon">Coming soon to iPhone</p>
   </div>
 </header>
 
