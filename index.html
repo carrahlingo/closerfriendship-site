@@ -46,7 +46,9 @@
   /* ---------- Nav ---------- */
   .nav { background: var(--welcome); }
   .nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-block: 18px; }
-  .nav img { height: 26px; width: auto; }
+  .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .brand .brand-guys { height: 38px; width: auto; }
+  .brand .brand-word { height: 24px; width: auto; }
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
     font-family: var(--body); font-weight: 700; font-size: 1rem;
@@ -59,13 +61,38 @@
   .btn--small { padding: 10px 18px; font-size: .92rem; border-radius: 12px; }
 
   /* ---------- Hero ---------- */
-  .hero { background: var(--welcome); padding-block: 24px 88px; text-align: center; overflow: hidden; }
-  .hero .mascot { width: min(300px, 62vw); margin: 0 auto; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; }
-  .hero .wordmark { width: min(300px, 62vw); margin: 18px auto 0; animation: rise .7s .35s ease-out both; }
-  .hero .tagline { font-style: italic; font-size: 1.3rem; margin-top: 10px; animation: rise .7s .5s ease-out both; }
-  .hero .pitch { font-size: 1.2rem; max-width: 30ch; margin: 28px auto 0; animation: rise .7s .65s ease-out both; }
-  .hero .btn { margin-top: 30px; animation: rise .7s .8s ease-out both; }
-  .hero .soon { margin-top: 14px; font-size: .9rem; color: var(--purple-deep); opacity: .75; animation: rise .7s .9s ease-out both; }
+  /* Intro timing: the hero waits for the splash; a repeat visit (no splash) starts right away. */
+  :root { --intro: 1.9s; }
+  :root.no-splash { --intro: 0s; }
+  .hero { background: var(--welcome); padding-block: 56px 96px; text-align: center; overflow: hidden; }
+  .doodles { display: flex; justify-content: center; align-items: flex-end; gap: clamp(10px, 3vw, 34px); flex-wrap: wrap; }
+  .doodles img {
+    height: clamp(72px, 12vw, 144px); width: auto;
+    animation: pop .8s cubic-bezier(.34,1.56,.64,1) both;
+    animation-delay: calc(var(--intro) + var(--i) * .09s);
+    transition: transform .25s ease;
+  }
+  .doodles img:hover { transform: translateY(-6px) rotate(-4deg); }
+  .hero .tagline {
+    font-family: var(--display); font-weight: 600; font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.05; letter-spacing: -0.02em; margin-top: 30px;
+    animation: rise .7s both; animation-delay: calc(var(--intro) + .45s);
+  }
+  .hero .pitch { font-size: 1.2rem; max-width: 30ch; margin: 18px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .6s); }
+  .hero .btn { margin-top: 30px; animation: rise .7s both; animation-delay: calc(var(--intro) + .75s); }
+  .hero .soon { margin-top: 14px; font-size: .9rem; color: var(--purple-deep); opacity: .75; animation: rise .7s both; animation-delay: calc(var(--intro) + .85s); }
+
+  /* Splash: the app's welcome screen plays once, then lifts away. Pure CSS, so it always leaves. */
+  .splash {
+    position: fixed; inset: 0; z-index: 50; background: var(--welcome);
+    display: grid; place-content: center; justify-items: center; gap: 14px;
+    animation: splash-out .6s 1.4s ease-in forwards;
+  }
+  .splash .s-guys { width: min(220px, 50vw); animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; }
+  .splash .s-word { width: min(210px, 48vw); animation: rise .6s .3s ease-out both; }
+  .splash p { font-style: italic; font-size: 1.15rem; animation: rise .6s .45s ease-out both; }
+  @keyframes splash-out { to { opacity: 0; transform: scale(1.04); visibility: hidden; } }
+  :root.no-splash .splash { display: none; }
 
   @keyframes pop { from { transform: scale(.6) translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes rise { from { transform: translateY(28px); opacity: 0; } to { transform: none; opacity: 1; } }
@@ -271,22 +298,39 @@
     .cta img { width: 120px; }
   }
   @media (prefers-reduced-motion: reduce) {
+    .splash { display: none; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
 
+<script>
+  // Show the splash once per visit; skip it on repeat views in the same session.
+  try { if (sessionStorage.getItem('closer-splash')) document.documentElement.classList.add('no-splash'); else sessionStorage.setItem('closer-splash', '1'); } catch (e) {}
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('no-splash');
+</script>
+<div class="splash" aria-hidden="true">
+  <img class="s-guys" src="img/mascot.png" alt="">
+  <img class="s-word" src="img/wordmark.png" alt="">
+  <p>for friends who care.</p>
+</div>
+
 <nav class="nav" aria-label="Main">
   <div class="wrap">
-    <img src="img/wordmark.png" alt="Closer">
+    <a class="brand" href="#" aria-label="Closer home"><img class="brand-guys" src="img/mascot.png" alt=""><img class="brand-word" src="img/wordmark.png" alt=""></a>
     <a class="btn btn--small" href="#early">Get early access</a>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <img class="mascot" src="img/mascot.png" alt="Two smiling purple friends, one with an arm around the other">
-    <img class="wordmark" src="img/wordmark.png" alt="closer">
-    <p class="tagline">for friends who care.</p>
+    <div class="doodles" aria-hidden="true">
+      <img src="img/m-hug.png" alt="" style="--i:0">
+      <img src="img/m-checkin.png" alt="" style="--i:1">
+      <img src="img/m-pose.png" alt="" style="--i:2">
+      <img src="img/m-chatty.png" alt="" style="--i:3">
+      <img src="img/m-love-purple.png" alt="" style="--i:4">
+    </div>
+    <h1 class="tagline">for friends who care.</h1>
     <p class="pitch">Closer helps you hold onto the details for the people who matter most.</p>
     <a class="btn" href="#early">Get early access</a>
     <p class="soon">Coming soon to iPhone</p>
