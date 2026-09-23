@@ -45,10 +45,12 @@
 
   /* ---------- Nav ---------- */
   .nav { background: var(--welcome); }
-  .nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-block: 18px; }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-block: 14px; }
   .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
   .brand .brand-guys { height: 38px; width: auto; }
   .brand .brand-word { height: 24px; width: auto; }
+  .nav-link { font-weight: 700; font-size: .95rem; color: var(--purple-deep); text-decoration: none; }
+  .nav-link:hover { text-decoration: underline; text-underline-offset: 4px; }
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
     font-family: var(--body); font-weight: 700; font-size: 1rem;
@@ -61,13 +63,11 @@
   .btn--small { padding: 10px 18px; font-size: .92rem; border-radius: 12px; }
 
   /* ---------- Hero ---------- */
-  /* Intro timing: the hero waits for the splash; a repeat visit (no splash) starts right away. */
-  :root { --intro: 1.9s; }
-  :root.no-splash { --intro: 0s; }
-  .hero { background: var(--welcome); padding-block: 40px 88px; overflow: hidden; }
+  :root { --intro: 0s; }
+  .hero { background: var(--welcome); padding-block: 16px 56px; overflow: hidden; }
   /* Same composition as the blog banner: the app on a phone at left, the tagline and the crowd of friends at right. */
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr); gap: clamp(24px, 5vw, 72px); align-items: center; }
-  .hero-phone { width: min(300px, 100%); justify-self: center; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: var(--intro); }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.6fr); gap: clamp(24px, 5vw, 72px); align-items: center; }
+  .hero-phone { width: min(230px, 100%); justify-self: center; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: var(--intro); }
   .hero-copy { text-align: center; }
   .hero .tagline {
     /* The app's system font in italic; bold here, like the banner. */
@@ -76,22 +76,11 @@
     line-height: 1.1; letter-spacing: -0.01em;
     animation: rise .7s both; animation-delay: calc(var(--intro) + .15s);
   }
-  .crowd { width: 100%; max-width: 560px; margin: 34px auto 0; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .35s); }
-  .hero .pitch { font-size: 1.2rem; max-width: 30ch; margin: 30px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .6s); }
-  .hero .btn { margin-top: 26px; animation: rise .7s both; animation-delay: calc(var(--intro) + .75s); }
-  .hero .soon { margin-top: 14px; font-size: .9rem; color: var(--purple-deep); opacity: .75; animation: rise .7s both; animation-delay: calc(var(--intro) + .85s); }
+  .crowd { width: 100%; max-width: 520px; margin: 26px auto 0; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .35s); }
+  .hero .pitch { font-size: 1.15rem; max-width: 34ch; margin: 22px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .6s); }
+  .cta-row { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 22px; animation: rise .7s both; animation-delay: calc(var(--intro) + .75s); }
+  .soon-tag { font-size: .8rem; font-weight: 700; color: var(--purple-deep); background: rgba(255,255,255,.6); border-radius: 999px; padding: 6px 12px; }
 
-  /* Splash: the app's welcome screen plays once, then lifts away. Pure CSS, so it always leaves. */
-  .splash {
-    position: fixed; inset: 0; z-index: 50; background: var(--welcome);
-    display: grid; place-content: center; justify-items: center; gap: 14px;
-    animation: splash-out .6s 1.4s ease-in forwards;
-  }
-  .splash .s-guys { width: min(220px, 50vw); animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; }
-  .splash .s-word { width: min(210px, 48vw); animation: rise .6s .3s ease-out both; }
-  .splash p { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif; font-style: italic; font-size: 1.15rem; animation: rise .6s .45s ease-out both; }
-  @keyframes splash-out { to { opacity: 0; transform: scale(1.04); visibility: hidden; } }
-  :root.no-splash .splash { display: none; }
 
   @keyframes pop { from { transform: scale(.6) translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes rise { from { transform: translateY(28px); opacity: 0; } to { transform: none; opacity: 1; } }
@@ -101,14 +90,14 @@
   /* ---------- Problem ---------- */
   /* The problem section is a scroll stage: tall on desktop, with the content pinned
      while the scraps slip away and the Closer card lands in their place. */
-  .problem { padding-block: 96px 88px; overflow-x: clip; }
+  .problem { padding-block: 56px 48px; overflow-x: clip; }
   .problem .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
   .problem .lede { margin-top: 20px; }
   .problem .kicker { margin-top: 18px; font-weight: 600; color: var(--purple-ink); transition: color .4s ease; }
   .problem .kicker .arrow { display: inline-block; transition: transform .4s ease; }
   .problem.is-home .kicker .arrow { transform: translateX(6px); }
   @media (min-width: 761px) {
-    .problem.stage-on { height: 230vh; padding-block: 0; }
+    .problem.stage-on { height: 160vh; padding-block: 0; }
     .problem.stage-on .grid { position: sticky; top: env(safe-area-inset-top, 0px); height: 100vh; }
   }
 
@@ -218,10 +207,10 @@
   .problem.static .home-card { opacity: 1; transform: translate(-50%, 0); }
 
   /* ---------- Features ---------- */
-  .features { padding-block: 24px 40px; }
+  .features { padding-block: 0 16px; }
   .feature {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
-    padding-block: 56px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    padding-block: 32px;
   }
   .feature:nth-child(even) .copy { order: 2; }
   .feature .copy p { margin-top: 16px; color: var(--muted); font-size: 1.1rem; max-width: 36ch; }
@@ -229,11 +218,11 @@
     display: inline-block; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
     padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
   }
-  .stage { border-radius: 36px; padding: 44px 24px 0; display: flex; justify-content: center; overflow: hidden; }
+  .stage { border-radius: 32px; padding: 32px 24px 0; display: flex; justify-content: center; overflow: hidden; }
   .phone {
     width: min(270px, 70vw); border: 9px solid var(--ink); border-bottom: 0;
     border-radius: 38px 38px 0 0; overflow: hidden; background: var(--ink);
-    aspect-ratio: 270 / 470;
+    aspect-ratio: 270 / 360;
   }
   .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
   .tone-purple { background: var(--welcome); color: var(--purple-deep); }
@@ -242,10 +231,10 @@
   .tone-green  { background: var(--green-bg);  color: var(--green-ink); }
 
   /* ---------- Moments ---------- */
-  .moments { padding-block: 72px 96px; }
+  .moments { padding-block: 40px 64px; }
   .moments header { max-width: 40ch; }
   .moments header p { margin-top: 14px; color: var(--muted); font-size: 1.1rem; }
-  .moment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 40px; }
+  .moment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
   .moment {
     border-radius: 24px; padding: 28px 24px 28px 28px;
     display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center;
@@ -257,13 +246,9 @@
   .moment h3 { color: inherit; }
   .moment p { margin-top: 10px; color: var(--ink); opacity: .82; }
 
-  /* ---------- Private ---------- */
-  .private { background: var(--ink); color: var(--cream); padding-block: 88px; text-align: center; }
-  .private h2 { color: var(--lavender); }
-  .private p { margin: 18px auto 0; max-width: 44ch; font-size: 1.15rem; opacity: .85; }
-
   /* ---------- CTA ---------- */
-  .cta { background: var(--welcome); padding-block: 88px; }
+  .cta .promise { margin-top: 0; font-size: .8rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--purple-ink); margin-bottom: 10px !important; }
+  .cta { background: var(--welcome); padding-block: 64px; }
   .cta .grid { display: grid; grid-template-columns: auto 1fr; gap: 48px; align-items: center; }
   .cta img { width: 180px; }
   .cta p { margin-top: 14px; font-size: 1.15rem; max-width: 40ch; }
@@ -281,12 +266,12 @@
 
   @media (max-width: 760px) {
     .hero-grid { grid-template-columns: 1fr; gap: 28px; }
-    .hero-phone { width: 170px; }
+    .hero-phone { width: 140px; }
     body { font-size: 16px; }
     .wrap { padding-inline: 18px; }
     .problem .grid, .feature, .cta .grid { grid-template-columns: 1fr; gap: 32px; }
     .feature:nth-child(even) .copy { order: 0; }
-    .feature { padding-block: 36px; }
+    .feature { padding-block: 24px; }
     .moment-grid { grid-template-columns: 1fr; }
     .moment img { width: 92px; height: 92px; }
     .mess { height: 460px; }
@@ -299,26 +284,14 @@
     .cta img { width: 120px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .splash { display: none; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
 
-<script>
-  // Show the splash once per visit; skip it on repeat views in the same session.
-  try { if (sessionStorage.getItem('closer-splash')) document.documentElement.classList.add('no-splash'); else sessionStorage.setItem('closer-splash', '1'); } catch (e) {}
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('no-splash');
-</script>
-<div class="splash" aria-hidden="true">
-  <img class="s-guys" src="img/mascot.png" alt="">
-  <img class="s-word" src="img/wordmark.png" alt="">
-  <p>for friends who care.</p>
-</div>
-
 <nav class="nav" aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#" aria-label="Closer home"><img class="brand-guys" src="img/mascot.png" alt=""><img class="brand-word" src="img/wordmark.png" alt=""></a>
-    <a class="btn btn--small" href="#early">Get early access</a>
+    <a class="nav-link" href="#early">Join the early testers</a>
   </div>
 </nav>
 
@@ -329,8 +302,7 @@
       <h1 class="tagline">for friends who care.</h1>
       <img class="crowd" src="img/crowd.png" alt="A row of hand-drawn friends in pairs, hugging and standing arm in arm">
       <p class="pitch">Closer helps you hold onto the details for the people who matter most.</p>
-      <a class="btn" href="#early">Get early access</a>
-      <p class="soon">Coming soon to iPhone</p>
+      <div class="cta-row"><a class="btn" href="#early">Get early access</a><span class="soon-tag">Coming soon to iPhone</span></div>
     </div>
   </div>
 </header>
@@ -478,19 +450,13 @@
     </div>
   </section>
 
-  <section class="private" aria-labelledby="private-h">
-    <div class="wrap reveal">
-      <h2 id="private-h">No feed. No followers. No streaks.</h2>
-      <p>Closer isn't a social network. It's a private space for the people you love, and your notes stay on your phone.</p>
-    </div>
-  </section>
-
   <section class="cta" id="early" aria-labelledby="cta-h">
     <div class="wrap grid">
       <img src="img/celebrate-purple.png" alt="" aria-hidden="true">
       <div class="reveal">
+        <p class="promise">No feed. No followers. No streaks.</p>
         <h2 id="cta-h">Be one of the first.</h2>
-        <p>Closer is launching soon on iPhone. Join the early testers and help shape what it becomes.</p>
+        <p>Closer is a private space for the people you love, launching soon on iPhone. Join the early testers and help shape what it becomes.</p>
         <form id="signup">
           <label for="email" class="sr" style="position:absolute;left:-9999px">Email address</label>
           <input type="email" id="email" name="email" placeholder="you@email.com" required autocomplete="email">
