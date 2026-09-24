@@ -95,6 +95,7 @@
   .pair--phone::after {
     content: ""; position: absolute; left: -30%; right: -30%; bottom: -12px; height: 26px;
     background: var(--cream); border-radius: 50% 50% 0 0 / 100% 100% 0 0; z-index: 1;
+    opacity: var(--mound, 1);   /* fades as the phone sinks, so it never covers the friends' feet */
   }
   .hero .pitch { font-size: 1.2rem; max-width: 58ch; text-wrap: balance; margin: 16px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .15s); }
   .cta-row { position: relative; z-index: 1; display: flex; justify-content: center; margin: 22px 0 var(--cta-bottom); animation: rise .7s both; animation-delay: calc(var(--intro) + .95s); }
@@ -621,6 +622,7 @@
       phone.style.transform = 'translateY(' + (base[iPhone].feet - (H - 10)).toFixed(1) + 'px)';
       sink.style.transform = 'translateY(' + down.toFixed(1) + 'px)';
       sink.style.clipPath = 'inset(0 0 ' + down.toFixed(1) + 'px 0)';
+      phone.style.setProperty('--mound', String(Math.max(0, 1 - e * 3)));
     }
     var ticking = false;
     window.addEventListener('scroll', function () {
