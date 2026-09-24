@@ -82,6 +82,8 @@
   .pair img { height: clamp(78px, 11.5vw, 150px); width: auto; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .45s + var(--i) * .08s); transform-origin: 50% 100%; }
   /* The phone stands in the middle of the friends, its base sunk into the hill. */
   .pair--phone { position: relative; margin-inline: 10px; }
+  .sink { display: block; will-change: transform, clip-path; }
+  .pair { will-change: transform; }
   .hill-phone {
     position: relative; display: block; width: clamp(96px, 12vw, 150px); aspect-ratio: 150 / 250;
     border: 7px solid var(--ink); border-bottom: 0; border-radius: 26px 26px 0 0; overflow: hidden; background: var(--ink);
@@ -333,7 +335,7 @@
     <div class="crowd" role="img" aria-label="Hand-drawn friends in pairs, hugging and standing arm in arm, gathered on a hill around an iPhone showing the Closer app">
       <span class="pair" style="--i:0"><img src="img/pair1.png" alt=""></span>
       <span class="pair" style="--i:1"><img src="img/pair2.png" alt=""></span>
-      <span class="pair pair--phone" style="--i:2"><span class="hill-phone"><img src="img/home-nudges.jpg" alt="Closer's Home screen with nudges to check in with friends"></span></span>
+      <span class="pair pair--phone" style="--i:2"><span class="sink"><span class="hill-phone"><img src="img/home-nudges.jpg" alt="Closer's Home screen with nudges to check in with friends"></span></span></span>
       <span class="pair" style="--i:3"><img src="img/pair4.png" alt=""></span>
       <span class="pair" style="--i:4"><img src="img/pair5.png" alt=""></span>
     </div>
@@ -560,29 +562,58 @@
     update();
   })();
 
-  // Stand each pair of friends on the hill: match its height and tilt to the curve under it.
+  // Stand each pair of friends on the hill, matching height and tilt to the curve under it.
+  // As you scroll down, the phone sinks into the hill and the friends walk in to close the gap:
+  // the app brings you closer to your people.
   (function () {
     var hero = document.querySelector('.hero');
     var pairs = [].slice.call(hero.querySelectorAll('.pair'));
-    function place() {
+    var phone = hero.querySelector('.pair--phone');
+    var sink = hero.querySelector('.sink');
+    var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var base = [], H = 0, a = 1, heroH = 1, phoneH = 0, shift = 0, iPhone = pairs.indexOf(phone);
+    function measure() {
+      pairs.forEach(function (el) { el.style.transform = 'none'; });
+      sink.style.transform = 'none'; sink.style.clipPath = 'none';
       var hr = hero.getBoundingClientRect();
-      var H = parseFloat(getComputedStyle(hero).getPropertyValue('--hill')) || 0;
-      var a = hr.width * 0.65, cx0 = hr.left + hr.width / 2;   // hill spans -15%..115% of the hero
-      pairs.forEach(function (el) {
-        el.style.transform = 'none';
+      H = parseFloat(getComputedStyle(hero).getPropertyValue('--hill')) || 0;
+      a = hr.width * 0.65; heroH = hr.height;               // hill spans -15%..115% of the hero
+      base = pairs.map(function (el) {
         var r = el.getBoundingClientRect();
-        var x = Math.max(-a * 0.98, Math.min(a * 0.98, r.left + r.width / 2 - cx0));
-        var k = Math.sqrt(1 - (x * x) / (a * a));
-        var top = H * k;                                   // hill height under this pair
-        var feet = hr.bottom - r.bottom;                   // current height of this pair's feet above the hero's bottom
-        var dy = feet - (top - 10);                         // sink feet slightly into the hill
-        var deg = 1.6 * Math.atan((H * x) / (a * a * k)) * 180 / Math.PI;  // a little extra lean so it reads
-        el.style.transform = 'translateY(' + dy.toFixed(1) + 'px) rotate(' + deg.toFixed(2) + 'deg)';
+        return { x: r.left + r.width / 2 - (hr.left + hr.width / 2), feet: hr.bottom - r.bottom };
       });
+      var pr = phone.getBoundingClientRect();
+      phoneH = pr.height;
+      shift = pr.width / 2 + 10;                            // how far each side walks in to meet
+      update();
     }
-    place();
-    window.addEventListener('resize', place);
-    window.addEventListener('load', place);
+    function update() {
+      var s = calm ? 0 : Math.max(0, Math.min(1, window.scrollY / (heroH * 0.5)));
+      var e = s * s * (3 - 2 * s);
+      pairs.forEach(function (el, i) {
+        if (i === iPhone) return;
+        var x = base[i].x + (i < iPhone ? shift : -shift) * e;
+        x = Math.max(-a * 0.98, Math.min(a * 0.98, x));
+        var k = Math.sqrt(1 - (x * x) / (a * a));
+        var top = H * k;                                    // hill height under this pair
+        var dy = base[i].feet - (top - 10);                 // sink feet slightly into the hill
+        var dx = x - base[i].x;
+        var deg = 1.6 * Math.atan((H * x) / (a * a * k)) * 180 / Math.PI;
+        el.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) rotate(' + deg.toFixed(2) + 'deg)';
+      });
+      // the phone's own spot on the hill, then it slides down out of sight
+      var down = phoneH * e;
+      phone.style.transform = 'translateY(' + (base[iPhone].feet - (H - 10)).toFixed(1) + 'px)';
+      sink.style.transform = 'translateY(' + down.toFixed(1) + 'px)';
+      sink.style.clipPath = 'inset(0 0 ' + down.toFixed(1) + 'px 0)';
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); }
+    }, { passive: true });
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+    measure();
   })();
   // Slide-up on scroll. Content is visible at rest; this only replays the entrance
   // for elements that start below the fold, when they arrive.
