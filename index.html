@@ -79,7 +79,7 @@
   .crowd { position: relative; z-index: 1; display: flex; justify-content: center; align-items: flex-end; gap: 6px; margin: 40px auto 0; }
   /* Each pair is placed on the curve by script: outer pairs sit lower and lean with the slope. */
   .pair { display: block; transform-origin: 50% 100%; }
-  .pair img { height: clamp(78px, 11.5vw, 150px); width: auto; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .45s + var(--i) * .08s); transform-origin: 50% 100%; }
+  .pair > img { height: clamp(78px, 11.5vw, 150px); width: auto; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .45s + var(--i) * .08s); transform-origin: 50% 100%; }
   /* The phone stands in the middle of the friends, its base sunk into the hill. */
   .pair--phone { position: relative; margin-inline: 10px; }
   .sink { display: block; will-change: transform, clip-path; }
@@ -297,9 +297,19 @@
   footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: .9rem; }
   footer img { height: 22px; width: auto; opacity: .85; }
 
+  /* Big screens: let the page breathe a little instead of staying laptop-sized. */
+  @media (min-width: 1400px) {
+    .wrap { max-width: 1200px; }
+    .hero .headline { font-size: 4rem; }
+    .hero .pitch { font-size: 1.35rem; }
+    .hero { --hill: 160px; --cta-bottom: 52px; }
+    .pair > img { height: 184px; }
+    .hill-phone { width: 180px; border-width: 8px; }
+    .feature .copy p, .moments header p { font-size: 1.2rem; }
+  }
   @media (max-width: 760px) {
     .hero { --hill: 112px; --cta-bottom: 26px; --spread: .95; --lean: 1; }
-    .pair img { height: 58px; }
+    .pair > img { height: 58px; }
     .hill-phone { width: 76px; border-width: 5px; border-radius: 16px 16px 0 0; }
     .pair--phone { margin-inline: 4px; }
     .pair--phone::after { bottom: -8px; height: 16px; }
