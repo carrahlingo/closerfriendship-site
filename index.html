@@ -65,10 +65,10 @@
   .hero { position: relative; background: var(--welcome); padding-block: 40px 0; overflow: hidden; }
   /* A gentle cream hill rising out of the page, for the friends to stand on. */
   .hero::after {
-    content: ""; position: absolute; left: -15%; right: -15%; bottom: -1px; height: var(--hill);
+    content: ""; position: absolute; left: calc(50% - var(--spread) * 100%); right: calc(50% - var(--spread) * 100%); bottom: -1px; height: var(--hill);
     background: var(--cream); border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   }
-  .hero { --hill: 130px; --cta-bottom: 42px; }
+  .hero { --hill: 130px; --cta-bottom: 42px; --spread: .65; --lean: 1.6; }
   .hero-copy { text-align: center; }
   /* The friends stand on the line where the purple hero meets the cream page. */
   .hero .headline {
@@ -298,7 +298,11 @@
   footer img { height: 22px; width: auto; opacity: .85; }
 
   @media (max-width: 760px) {
-    .hero { --hill: 108px; --cta-bottom: 28px; }
+    .hero { --hill: 112px; --cta-bottom: 26px; --spread: .95; --lean: 1; }
+    .pair img { height: 58px; }
+    .hill-phone { width: 76px; border-width: 5px; border-radius: 16px 16px 0 0; }
+    .pair--phone { margin-inline: 4px; }
+    .pair--phone::after { bottom: -8px; height: 16px; }
     .crowd { gap: 2px; }
     body { font-size: 16px; }
     .wrap { padding-inline: 18px; }
@@ -532,22 +536,23 @@
       var r = section.getBoundingClientRect(), vh = window.innerHeight;
       if (desktop.matches) return clamp(-r.top / Math.max(1, r.height - vh));
       var m = section.querySelector('.mess').getBoundingClientRect();
-      return clamp((vh * 0.55 - m.top) / (vh * 0.6));
+      return clamp((vh * 0.45 - m.top) / (vh * 0.5));
     }
     function update() {
       var p = progress();
       var vw = window.innerWidth / 100, vh = window.innerHeight / 100;
+      var narrow = !desktop.matches, ySc = narrow ? 0.25 : 1;
       scraps.forEach(function (el, i) {
-        var t = ease(clamp((p - 0.08 - i * 0.06) / 0.45));
-        var dx = +el.dataset.dx * vw * t, dy = +el.dataset.dy * vh * t, rot = +el.dataset.rot * t;
+        var t = narrow ? ease(clamp((p - 0.03 - i * 0.04) / 0.3)) : ease(clamp((p - 0.08 - i * 0.06) / 0.45));
+        var dx = +el.dataset.dx * vw * t, dy = +el.dataset.dy * vh * t * ySc, rot = +el.dataset.rot * t;
         el.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg)';
         el.style.opacity = String(1 - clamp((t - 0.55) / 0.45));
       });
       var panel = section.querySelector('.home-panel');
-      var b = ease(clamp((p - 0.4) / 0.3));
+      var b = ease(clamp((p - (narrow ? 0.36 : 0.4)) / 0.3));
       panel.style.opacity = String(b);
       panel.style.transform = 'scale(' + (0.85 + 0.15 * b) + ')';
-      var c = ease(clamp((p - 0.5) / 0.3));
+      var c = ease(clamp((p - (narrow ? 0.44 : 0.5)) / 0.3));
       card.style.opacity = String(c);
       card.style.transform = 'translate(-50%, ' + (1 - c) * 60 + 'px)';
       section.classList.toggle('is-home', c > 0.6);
@@ -569,13 +574,15 @@
     var phone = hero.querySelector('.pair--phone');
     var sink = hero.querySelector('.sink');
     var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var base = [], H = 0, a = 1, heroH = 1, phoneH = 0, shift = 0, iPhone = pairs.indexOf(phone);
+    var lean = 1.6, base = [], H = 0, a = 1, heroH = 1, phoneH = 0, shift = 0, iPhone = pairs.indexOf(phone);
     function measure() {
       pairs.forEach(function (el) { el.style.transform = 'none'; });
       sink.style.transform = 'none'; sink.style.clipPath = 'none';
       var hr = hero.getBoundingClientRect();
       H = parseFloat(getComputedStyle(hero).getPropertyValue('--hill')) || 0;
-      a = hr.width * 0.65; heroH = hr.height;               // hill spans -15%..115% of the hero
+      var cs = getComputedStyle(hero);
+      a = hr.width * (parseFloat(cs.getPropertyValue('--spread')) || .65); heroH = hr.height;
+      lean = parseFloat(cs.getPropertyValue('--lean')) || 1.6;
       base = pairs.map(function (el) {
         var r = el.getBoundingClientRect();
         return { x: r.left + r.width / 2 - (hr.left + hr.width / 2), feet: hr.bottom - r.bottom };
@@ -596,7 +603,7 @@
         var top = H * k;                                    // hill height under this pair
         var dy = base[i].feet - (top - 10);                 // sink feet slightly into the hill
         var dx = x - base[i].x;
-        var deg = 1.6 * Math.atan((H * x) / (a * a * k)) * 180 / Math.PI;
+        var deg = lean * Math.atan((H * x) / (a * a * k)) * 180 / Math.PI;
         el.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) rotate(' + deg.toFixed(2) + 'deg)';
       });
       // the phone's own spot on the hill, then it slides down out of sight
