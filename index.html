@@ -65,10 +65,10 @@
   .hero { position: relative; background: var(--welcome); padding-block: 40px 0; overflow: hidden; }
   /* A gentle cream hill rising out of the page, for the friends to stand on. */
   .hero::after {
-    content: ""; position: absolute; left: -6%; right: -6%; bottom: -1px; height: var(--hill);
+    content: ""; position: absolute; left: -15%; right: -15%; bottom: -1px; height: var(--hill);
     background: var(--cream); border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   }
-  .hero { --hill: 110px; }
+  .hero { --hill: 150px; }
   .hero-copy { text-align: center; }
   /* The friends stand on the line where the purple hero meets the cream page. */
   .hero .tagline {
@@ -78,7 +78,10 @@
     line-height: 1.1; letter-spacing: -0.01em;
     animation: rise .7s both; animation-delay: var(--intro);
   }
-  .crowd { position: relative; z-index: 1; width: 100%; max-width: 620px; margin: 44px auto calc(var(--hill) - 12px); animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .5s); transform-origin: bottom center; }
+  .crowd { position: relative; z-index: 1; display: flex; justify-content: center; align-items: flex-end; gap: 6px; margin: 44px auto calc(var(--hill) - 14px); }
+  /* Each pair is placed on the curve by script: outer pairs sit lower and lean with the slope. */
+  .pair { display: block; transform-origin: 50% 100%; }
+  .pair img { height: clamp(78px, 11.5vw, 150px); width: auto; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .45s + var(--i) * .08s); transform-origin: 50% 100%; }
   .hero .pitch { font-size: 1.2rem; max-width: 32ch; margin: 16px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .15s); }
   .cta-row { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 26px; animation: rise .7s both; animation-delay: calc(var(--intro) + .3s); }
   .soon-tag { font-size: .8rem; font-weight: 700; color: var(--purple-deep); background: rgba(255,255,255,.6); border-radius: 999px; padding: 6px 12px; }
@@ -267,7 +270,8 @@
   footer img { height: 22px; width: auto; opacity: .85; }
 
   @media (max-width: 760px) {
-    .hero { --hill: 56px; }
+    .hero { --hill: 60px; }
+    .crowd { gap: 2px; }
     body { font-size: 16px; }
     .wrap { padding-inline: 18px; }
     .problem .grid, .feature, .cta .grid { grid-template-columns: 1fr; gap: 32px; }
@@ -300,7 +304,13 @@
     <h1 class="tagline">for friends who care.</h1>
     <p class="pitch">Closer helps you hold onto the details for the people who matter most.</p>
     <div class="cta-row"><a class="btn" href="#early">Get early access</a><span class="soon-tag">Coming soon to iPhone</span></div>
-    <img class="crowd" src="img/crowd.png" alt="A row of hand-drawn friends in pairs, hugging and standing arm in arm">
+    <div class="crowd" role="img" aria-label="A row of hand-drawn friends in pairs, hugging and standing arm in arm, on top of a hill">
+      <span class="pair" style="--i:0"><img src="img/pair1.png" alt=""></span>
+      <span class="pair" style="--i:1"><img src="img/pair2.png" alt=""></span>
+      <span class="pair" style="--i:2"><img src="img/pair3.png" alt=""></span>
+      <span class="pair" style="--i:3"><img src="img/pair4.png" alt=""></span>
+      <span class="pair" style="--i:4"><img src="img/pair5.png" alt=""></span>
+    </div>
   </div>
 </header>
 
@@ -518,6 +528,29 @@
     update();
   })();
 
+  // Stand each pair of friends on the hill: match its height and tilt to the curve under it.
+  (function () {
+    var hero = document.querySelector('.hero');
+    var pairs = [].slice.call(hero.querySelectorAll('.pair'));
+    function place() {
+      var hr = hero.getBoundingClientRect();
+      var H = parseFloat(getComputedStyle(hero).getPropertyValue('--hill')) || 0;
+      var a = hr.width * 0.65, cx0 = hr.left + hr.width / 2;   // hill spans -15%..115% of the hero
+      pairs.forEach(function (el) {
+        el.style.transform = 'none';
+        var r = el.getBoundingClientRect();
+        var x = Math.max(-a * 0.98, Math.min(a * 0.98, r.left + r.width / 2 - cx0));
+        var k = Math.sqrt(1 - (x * x) / (a * a));
+        var top = H * k;                                   // hill height under this pair
+        var dy = (H - 14) - (top - 10);                    // sink feet slightly into the hill
+        var deg = 1.6 * Math.atan((H * x) / (a * a * k)) * 180 / Math.PI;  // a little extra lean so it reads
+        el.style.transform = 'translateY(' + dy.toFixed(1) + 'px) rotate(' + deg.toFixed(2) + 'deg)';
+      });
+    }
+    place();
+    window.addEventListener('resize', place);
+    window.addEventListener('load', place);
+  })();
   // Slide-up on scroll. Content is visible at rest; this only replays the entrance
   // for elements that start below the fold, when they arrive.
   (function () {
