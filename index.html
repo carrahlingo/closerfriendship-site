@@ -62,7 +62,13 @@
 
   /* ---------- Hero ---------- */
   :root { --intro: 0s; }
-  .hero { background: var(--welcome); padding-block: 40px 0; overflow: hidden; }
+  .hero { position: relative; background: var(--welcome); padding-block: 40px 0; overflow: hidden; }
+  /* A gentle cream hill rising out of the page, for the friends to stand on. */
+  .hero::after {
+    content: ""; position: absolute; left: -6%; right: -6%; bottom: -1px; height: var(--hill);
+    background: var(--cream); border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
+  .hero { --hill: 110px; }
   .hero-copy { text-align: center; }
   /* The friends stand on the line where the purple hero meets the cream page. */
   .hero .tagline {
@@ -72,7 +78,7 @@
     line-height: 1.1; letter-spacing: -0.01em;
     animation: rise .7s both; animation-delay: var(--intro);
   }
-  .crowd { width: 100%; max-width: 620px; margin: 44px auto -2px; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .5s); transform-origin: bottom center; }
+  .crowd { position: relative; z-index: 1; width: 100%; max-width: 620px; margin: 44px auto calc(var(--hill) - 12px); animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .5s); transform-origin: bottom center; }
   .hero .pitch { font-size: 1.2rem; max-width: 32ch; margin: 16px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .15s); }
   .cta-row { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 26px; animation: rise .7s both; animation-delay: calc(var(--intro) + .3s); }
   .soon-tag { font-size: .8rem; font-weight: 700; color: var(--purple-deep); background: rgba(255,255,255,.6); border-radius: 999px; padding: 6px 12px; }
@@ -261,6 +267,7 @@
   footer img { height: 22px; width: auto; opacity: .85; }
 
   @media (max-width: 760px) {
+    .hero { --hill: 56px; }
     body { font-size: 16px; }
     .wrap { padding-inline: 18px; }
     .problem .grid, .feature, .cta .grid { grid-template-columns: 1fr; gap: 32px; }
