@@ -68,7 +68,7 @@
     content: ""; position: absolute; left: -15%; right: -15%; bottom: -1px; height: var(--hill);
     background: var(--cream); border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   }
-  .hero { --hill: 150px; }
+  .hero { --hill: 130px; --cta-bottom: 42px; }
   .hero-copy { text-align: center; }
   /* The friends stand on the line where the purple hero meets the cream page. */
   .hero .headline {
@@ -76,12 +76,12 @@
     max-width: 26ch; margin: 0 auto;
     animation: rise .7s both; animation-delay: var(--intro);
   }
-  .crowd { position: relative; z-index: 1; display: flex; justify-content: center; align-items: flex-end; gap: 6px; margin: 44px auto calc(var(--hill) - 14px); }
+  .crowd { position: relative; z-index: 1; display: flex; justify-content: center; align-items: flex-end; gap: 6px; margin: 40px auto 0; }
   /* Each pair is placed on the curve by script: outer pairs sit lower and lean with the slope. */
   .pair { display: block; transform-origin: 50% 100%; }
   .pair img { height: clamp(78px, 11.5vw, 150px); width: auto; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .45s + var(--i) * .08s); transform-origin: 50% 100%; }
-  .hero .pitch { font-size: 1.2rem; max-width: 46ch; margin: 16px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .15s); }
-  .cta-row { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 26px; animation: rise .7s both; animation-delay: calc(var(--intro) + .3s); }
+  .hero .pitch { font-size: 1.2rem; max-width: 58ch; text-wrap: balance; margin: 16px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .15s); }
+  .cta-row { position: relative; z-index: 1; display: flex; justify-content: center; margin: 22px 0 var(--cta-bottom); animation: rise .7s both; animation-delay: calc(var(--intro) + .95s); }
 
 
   @keyframes pop { from { transform: scale(.6) translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
@@ -267,7 +267,7 @@
   footer img { height: 22px; width: auto; opacity: .85; }
 
   @media (max-width: 760px) {
-    .hero { --hill: 60px; }
+    .hero { --hill: 108px; --cta-bottom: 28px; }
     .crowd { gap: 2px; }
     body { font-size: 16px; }
     .wrap { padding-inline: 18px; }
@@ -300,7 +300,6 @@
   <div class="wrap hero-copy">
     <h1 class="headline">Your friendships deserve a system.</h1>
     <p class="pitch">Save the details, get a nudge to check in, and never miss a big day.</p>
-    <div class="cta-row"><a class="btn" href="#early">Get early access</a></div>
     <div class="crowd" role="img" aria-label="A row of hand-drawn friends in pairs, hugging and standing arm in arm, on top of a hill">
       <span class="pair" style="--i:0"><img src="img/pair1.png" alt=""></span>
       <span class="pair" style="--i:1"><img src="img/pair2.png" alt=""></span>
@@ -308,6 +307,7 @@
       <span class="pair" style="--i:3"><img src="img/pair4.png" alt=""></span>
       <span class="pair" style="--i:4"><img src="img/pair5.png" alt=""></span>
     </div>
+    <div class="cta-row"><a class="btn" href="#early">Get early access</a></div>
   </div>
 </header>
 
@@ -539,7 +539,8 @@
         var x = Math.max(-a * 0.98, Math.min(a * 0.98, r.left + r.width / 2 - cx0));
         var k = Math.sqrt(1 - (x * x) / (a * a));
         var top = H * k;                                   // hill height under this pair
-        var dy = (H - 14) - (top - 10);                    // sink feet slightly into the hill
+        var feet = hr.bottom - r.bottom;                   // current height of this pair's feet above the hero's bottom
+        var dy = feet - (top - 10);                         // sink feet slightly into the hill
         var deg = 1.6 * Math.atan((H * x) / (a * a * k)) * 180 / Math.PI;  // a little extra lean so it reads
         el.style.transform = 'translateY(' + dy.toFixed(1) + 'px) rotate(' + deg.toFixed(2) + 'deg)';
       });
