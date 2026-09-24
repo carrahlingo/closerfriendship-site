@@ -112,12 +112,14 @@
   .problem .kicker { margin-top: 18px; font-weight: 600; color: var(--purple-ink); transition: color .4s ease; }
   .problem .kicker .arrow { display: inline-block; transition: transform .4s ease; }
   .problem.is-home .kicker .arrow { transform: translateX(6px); }
-  /* When the phone lands, the payoff line gets a soft lavender highlighter swipe. */
-  .kicker .hl {
-    background: linear-gradient(var(--lavender), var(--lavender)) no-repeat 0 88% / 0% 42%;
-    transition: background-size .7s cubic-bezier(.3,.7,.2,1); padding-inline: 2px;
+  /* When the phone lands, a hand-drawn squiggle draws itself under the payoff line. */
+  .kicker .hl { position: relative; display: inline-block; }
+  .squiggle { position: absolute; left: 0; bottom: -9px; width: 100%; height: 10px; overflow: visible; }
+  .squiggle path {
+    fill: none; stroke: var(--purple-ink); stroke-width: 2.4; stroke-linecap: round; vector-effect: non-scaling-stroke;
+    stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .9s cubic-bezier(.4,.1,.2,1);
   }
-  .problem.is-home .kicker .hl { background-size: 100% 42%; }
+  .problem.is-home .squiggle path { stroke-dashoffset: 0; }
   /* The same soft lavender panel as the feature rows, growing in behind the phone. */
   .home-panel {
     position: absolute; left: 50%; bottom: 0; top: -32px; width: min(400px, 100%);
@@ -233,7 +235,7 @@
   .problem.static .scrap { opacity: .28; }
   .problem.static .home-card { opacity: 1; transform: translate(-50%, 0); }
   .problem.static .home-panel { opacity: 1; transform: translateX(-50%); }
-  .problem.static .kicker .hl { background-size: 100% 42%; }
+  .problem.static .squiggle path { stroke-dashoffset: 0; }
 
   /* ---------- Features ---------- */
   .features { padding-block: 0 16px; }
@@ -344,7 +346,7 @@
       <div>
         <h2 id="problem-h">The details slip.</h2>
         <p class="lede">We all want to be the friend people call first. But between the group chats, the DMs, and everything else, the small stuff gets lost.</p>
-        <p class="kicker"><span class="hl">Closer gives it a home.</span> <span class="arrow" aria-hidden="true">→</span></p>
+        <p class="kicker"><span class="hl">Closer gives it a home.<svg class="squiggle" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 7 Q 9.5 1 17 7 T 32 7 T 47 7 T 62 7 T 77 7 T 92 7 T 107 7 T 122 7 T 137 7 T 152 7 T 167 7 T 182 7 T 198 7"/></svg></span> <span class="arrow" aria-hidden="true">→</span></p>
       </div>
       <div class="mess" role="img" aria-label="Details about friends scattered across a text, an Instagram DM, a Notes list, a sticky note, and a busy group chat, which slip away and are replaced by the same details saved in Closer's Updates tab">
         <div class="scrap scrap--text" data-dx="-75" data-dy="-10" data-rot="-38">
