@@ -76,18 +76,11 @@
     max-width: 26ch; margin: 0 auto;
     animation: rise .7s both; animation-delay: var(--intro);
   }
-  /* The app's system italic, sitting on the hill under the friends. */
-  .hero .tagline {
-    position: absolute; left: 0; right: 0; bottom: calc(var(--hill) * .32); z-index: 1;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    font-style: italic; font-weight: 400; font-size: 1.15rem; color: var(--ink);
-    animation: rise .7s both; animation-delay: calc(var(--intro) + .9s);
-  }
   .crowd { position: relative; z-index: 1; display: flex; justify-content: center; align-items: flex-end; gap: 6px; margin: 44px auto calc(var(--hill) - 14px); }
   /* Each pair is placed on the curve by script: outer pairs sit lower and lean with the slope. */
   .pair { display: block; transform-origin: 50% 100%; }
   .pair img { height: clamp(78px, 11.5vw, 150px); width: auto; animation: pop .9s cubic-bezier(.34,1.56,.64,1) both; animation-delay: calc(var(--intro) + .45s + var(--i) * .08s); transform-origin: 50% 100%; }
-  .hero .pitch { font-size: 1.2rem; max-width: 32ch; margin: 16px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .15s); }
+  .hero .pitch { font-size: 1.2rem; max-width: 46ch; margin: 16px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .15s); }
   .cta-row { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 26px; animation: rise .7s both; animation-delay: calc(var(--intro) + .3s); }
 
 
@@ -305,8 +298,8 @@
 
 <header class="hero">
   <div class="wrap hero-copy">
-    <h1 class="headline">Hold onto the details for the people who matter most.</h1>
-    <p class="pitch">Closer is a private app for keeping up with your friends' lives.</p>
+    <h1 class="headline">Your friendships deserve a system.</h1>
+    <p class="pitch">Save the details, get a nudge to check in, and never miss a big day.</p>
     <div class="cta-row"><a class="btn" href="#early">Get early access</a></div>
     <div class="crowd" role="img" aria-label="A row of hand-drawn friends in pairs, hugging and standing arm in arm, on top of a hill">
       <span class="pair" style="--i:0"><img src="img/pair1.png" alt=""></span>
@@ -315,7 +308,6 @@
       <span class="pair" style="--i:3"><img src="img/pair4.png" alt=""></span>
       <span class="pair" style="--i:4"><img src="img/pair5.png" alt=""></span>
     </div>
-    <p class="tagline">for friends who care.</p>
   </div>
 </header>
 
