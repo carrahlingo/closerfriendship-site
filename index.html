@@ -122,9 +122,10 @@
   .problem.is-home .squiggle path { stroke-dashoffset: 0; }
   /* The same soft lavender panel as the feature rows, growing in behind the phone. */
   .home-panel {
-    position: absolute; left: 50%; bottom: 0; top: -32px; width: min(400px, 100%);
+    /* Same width, corners, and top padding as the feature panels below; only taller. */
+    position: absolute; left: 0; right: 0; bottom: 0; top: -32px;
     background: var(--welcome); border-radius: 32px;
-    transform: translateX(-50%) scale(.85); opacity: 0; pointer-events: none;
+    transform: scale(.85); opacity: 0; pointer-events: none;
   }
   @media (min-width: 761px) {
     .problem.stage-on { height: 160vh; padding-block: 0; }
@@ -201,9 +202,9 @@
 
   /* The payoff: Closer's real Home screen, rebuilt in HTML with the same friends from the mess */
   .home-card {
-    position: absolute; left: 50%; bottom: 0; width: 262px; height: 440px;
+    position: absolute; left: 50%; bottom: 0; width: 270px; height: 440px;
     transform: translate(-50%, 40px); opacity: 0; pointer-events: none;
-    border: 9px solid var(--ink); border-bottom: 0; border-radius: 40px 40px 0 0;
+    border: 9px solid var(--ink); border-bottom: 0; border-radius: 38px 38px 0 0;
     background: #faf7f2; overflow: hidden; padding: 10px 14px 0;
     font-family: var(--body); color: #2b2420;
   }
@@ -234,7 +235,7 @@
   /* No scroll stage (reduced motion or no script): show the answer resting over a dimmed mess. */
   .problem.static .scrap { opacity: .28; }
   .problem.static .home-card { opacity: 1; transform: translate(-50%, 0); }
-  .problem.static .home-panel { opacity: 1; transform: translateX(-50%); }
+  .problem.static .home-panel { opacity: 1; transform: none; }
   .problem.static .squiggle path { stroke-dashoffset: 0; }
 
   /* ---------- Features ---------- */
@@ -545,7 +546,7 @@
       var panel = section.querySelector('.home-panel');
       var b = ease(clamp((p - 0.4) / 0.3));
       panel.style.opacity = String(b);
-      panel.style.transform = 'translateX(-50%) scale(' + (0.85 + 0.15 * b) + ')';
+      panel.style.transform = 'scale(' + (0.85 + 0.15 * b) + ')';
       var c = ease(clamp((p - 0.5) / 0.3));
       card.style.opacity = String(c);
       card.style.transform = 'translate(-50%, ' + (1 - c) * 60 + 'px)';
