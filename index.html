@@ -71,12 +71,17 @@
   .hero { --hill: 150px; }
   .hero-copy { text-align: center; }
   /* The friends stand on the line where the purple hero meets the cream page. */
-  .hero .tagline {
-    /* The app's system font in italic; bold here, like the banner. */
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    font-style: italic; font-weight: 700; font-size: clamp(2.1rem, 5vw, 3.4rem);
-    line-height: 1.1; letter-spacing: -0.01em;
+  .hero .headline {
+    font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -0.02em;
+    max-width: 26ch; margin: 0 auto;
     animation: rise .7s both; animation-delay: var(--intro);
+  }
+  /* The app's system italic, sitting on the hill under the friends. */
+  .hero .tagline {
+    position: absolute; left: 0; right: 0; bottom: calc(var(--hill) * .32); z-index: 1;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-style: italic; font-weight: 400; font-size: 1.15rem; color: var(--ink);
+    animation: rise .7s both; animation-delay: calc(var(--intro) + .9s);
   }
   .crowd { position: relative; z-index: 1; display: flex; justify-content: center; align-items: flex-end; gap: 6px; margin: 44px auto calc(var(--hill) - 14px); }
   /* Each pair is placed on the curve by script: outer pairs sit lower and lean with the slope. */
@@ -300,8 +305,8 @@
 
 <header class="hero">
   <div class="wrap hero-copy">
-    <h1 class="tagline">for friends who care.</h1>
-    <p class="pitch">Closer helps you hold onto the details for the people who matter most.</p>
+    <h1 class="headline">Hold onto the details for the people who matter most.</h1>
+    <p class="pitch">Closer is a private app for keeping up with your friends' lives.</p>
     <div class="cta-row"><a class="btn" href="#early">Get early access</a></div>
     <div class="crowd" role="img" aria-label="A row of hand-drawn friends in pairs, hugging and standing arm in arm, on top of a hill">
       <span class="pair" style="--i:0"><img src="img/pair1.png" alt=""></span>
@@ -310,6 +315,7 @@
       <span class="pair" style="--i:3"><img src="img/pair4.png" alt=""></span>
       <span class="pair" style="--i:4"><img src="img/pair5.png" alt=""></span>
     </div>
+    <p class="tagline">for friends who care.</p>
   </div>
 </header>
 
