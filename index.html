@@ -112,6 +112,18 @@
   .problem .kicker { margin-top: 18px; font-weight: 600; color: var(--purple-ink); transition: color .4s ease; }
   .problem .kicker .arrow { display: inline-block; transition: transform .4s ease; }
   .problem.is-home .kicker .arrow { transform: translateX(6px); }
+  /* When the phone lands, the payoff line gets a soft lavender highlighter swipe. */
+  .kicker .hl {
+    background: linear-gradient(var(--lavender), var(--lavender)) no-repeat 0 88% / 0% 42%;
+    transition: background-size .7s cubic-bezier(.3,.7,.2,1); padding-inline: 2px;
+  }
+  .problem.is-home .kicker .hl { background-size: 100% 42%; }
+  /* The same soft lavender panel as the feature rows, growing in behind the phone. */
+  .home-panel {
+    position: absolute; left: 50%; bottom: 0; top: -32px; width: min(400px, 100%);
+    background: var(--welcome); border-radius: 32px;
+    transform: translateX(-50%) scale(.85); opacity: 0; pointer-events: none;
+  }
   @media (min-width: 761px) {
     .problem.stage-on { height: 160vh; padding-block: 0; }
     .problem.stage-on .grid { position: sticky; top: env(safe-area-inset-top, 0px); height: 100vh; }
@@ -191,7 +203,6 @@
     transform: translate(-50%, 40px); opacity: 0; pointer-events: none;
     border: 9px solid var(--ink); border-bottom: 0; border-radius: 40px 40px 0 0;
     background: #faf7f2; overflow: hidden; padding: 10px 14px 0;
-    box-shadow: 0 30px 60px rgba(49,33,140,.18);
     font-family: var(--body); color: #2b2420;
   }
   .hs-status { display: flex; justify-content: space-between; align-items: center; font-size: .72rem; font-weight: 700; padding: 0 6px; height: 22px; }
@@ -221,6 +232,8 @@
   /* No scroll stage (reduced motion or no script): show the answer resting over a dimmed mess. */
   .problem.static .scrap { opacity: .28; }
   .problem.static .home-card { opacity: 1; transform: translate(-50%, 0); }
+  .problem.static .home-panel { opacity: 1; transform: translateX(-50%); }
+  .problem.static .kicker .hl { background-size: 100% 42%; }
 
   /* ---------- Features ---------- */
   .features { padding-block: 0 16px; }
@@ -331,7 +344,7 @@
       <div>
         <h2 id="problem-h">The details slip.</h2>
         <p class="lede">We all want to be the friend people call first. But between the group chats, the DMs, and everything else, the small stuff gets lost.</p>
-        <p class="kicker">Closer gives it a home. <span class="arrow" aria-hidden="true">→</span></p>
+        <p class="kicker"><span class="hl">Closer gives it a home.</span> <span class="arrow" aria-hidden="true">→</span></p>
       </div>
       <div class="mess" role="img" aria-label="Details about friends scattered across a text, an Instagram DM, a Notes list, a sticky note, and a busy group chat, which slip away and are replaced by the same details saved in Closer's Updates tab">
         <div class="scrap scrap--text" data-dx="-75" data-dy="-10" data-rot="-38">
@@ -368,6 +381,7 @@
           </div>
         </div>
 
+        <div class="home-panel" aria-hidden="true"></div>
         <div class="home-card" aria-hidden="true">
           <div class="hs-status"><span>9:41</span><span class="hs-island"></span><span class="hs-bars">▮▮▮ ▰</span></div>
           <div class="up-head">
@@ -526,6 +540,10 @@
         el.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg)';
         el.style.opacity = String(1 - clamp((t - 0.55) / 0.45));
       });
+      var panel = section.querySelector('.home-panel');
+      var b = ease(clamp((p - 0.4) / 0.3));
+      panel.style.opacity = String(b);
+      panel.style.transform = 'translateX(-50%) scale(' + (0.85 + 0.15 * b) + ')';
       var c = ease(clamp((p - 0.5) / 0.3));
       card.style.opacity = String(c);
       card.style.transform = 'translate(-50%, ' + (1 - c) * 60 + 'px)';
