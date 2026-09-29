@@ -12,11 +12,11 @@
     --cream: #faf7f2;
     --card: #ffffff;
     --ink: #2b2420;
-    --muted: #7d7268;
+    --muted: #776b60;
     --line: #efe7dd;
     --orange-bg: #f9dcd2; --orange-ink: #7a1d00;
     --blue-bg: #d8e6ff;   --blue-ink: #4152a7;
-    --green-bg: #e4f1e6;  --green-ink: #3f7350;
+    --citrus-bg: #f5f6df; --citrus-ink: #3c4718;
     --display: "Fredoka", "Nunito", ui-rounded, system-ui, sans-serif;
     --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
     color-scheme: light;
@@ -217,22 +217,22 @@
   .hs-head { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
   .hs-me { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #d9b48f, #8a5a3c); }
   .hs-head img { height: 17px; width: auto; }
-  .hs-gear { color: #9a8f84; font-size: .95rem; }
+  .hs-gear { color: #776b60; font-size: .95rem; }
   /* Updates tab, list view (matches app/(tabs)/updates.tsx) */
   .up-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-top: 18px; }
   .up-title { font-family: var(--display); font-weight: 600; font-size: 1.3rem; line-height: 1.1; }
-  .up-sub { font-size: .66rem; color: #9a8f84; margin-top: 3px; }
+  .up-sub { font-size: .66rem; color: #776b60; margin-top: 3px; }
   .up-toggle { flex: none; display: flex; background: #efe7dd; border-radius: 10px; padding: 2px; font-size: .6rem; font-weight: 700; }
-  .up-toggle span { padding: 4px 7px; border-radius: 8px; color: #9a8f84; }
+  .up-toggle span { padding: 4px 7px; border-radius: 8px; color: #776b60; }
   .up-toggle .on { background: #fff; color: #6a5cbc; }
-  .up-section { font-family: var(--display); font-weight: 600; font-size: .78rem; color: #9a8f84; margin: 14px 0 8px; }
+  .up-section { font-family: var(--display); font-weight: 600; font-size: .78rem; color: #776b60; margin: 14px 0 8px; }
   .up-row { display: flex; }
   .up-rail { width: 26px; flex: none; display: flex; flex-direction: column; align-items: center; }
   .up-av { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: .52rem; font-weight: 800; flex: none; }
   .up-line { width: 2px; flex: 1; margin-top: 5px; border-radius: 1px; background: #efe7dd; }
   .up-body { flex: 1; min-width: 0; margin-left: 9px; padding-bottom: 11px; }
   .up-body .who { font-size: .74rem; font-weight: 800; margin-top: 3px; }
-  .up-body .who span, .up-date { font-weight: 500; color: #9a8f84; font-size: .64rem; }
+  .up-body .who span, .up-date { font-weight: 500; color: #776b60; font-size: .64rem; }
   .up-body p { font-size: .72rem; line-height: 1.4; margin-top: 1px; }
 
   /* No scroll stage (reduced motion or no script): show the answer resting over a dimmed mess. */
@@ -263,7 +263,6 @@
   .tone-purple { background: var(--welcome); color: var(--purple-deep); }
   .tone-orange { background: var(--orange-bg); color: var(--orange-ink); }
   .tone-blue   { background: var(--blue-bg);   color: var(--blue-ink); }
-  .tone-green  { background: var(--green-bg);  color: var(--green-ink); }
 
   /* ---------- Moments ---------- */
   .moments { padding-block: 40px 64px; }
@@ -276,7 +275,7 @@
   }
   /* Same box for every drawing, so tall and wide ones read at the same size. */
   .moment img { width: 130px; height: 130px; object-fit: contain; object-position: center bottom; transition: transform .25s ease; }
-  .tone-citrus { background: #f3f5d6; color: #5c5f0e; }
+  .tone-citrus { background: var(--citrus-bg); color: var(--citrus-ink); }
   .moment:hover img { transform: translateY(-4px) rotate(-3deg); }
   .moment h3 { color: inherit; }
   .moment p { margin-top: 10px; color: var(--ink); opacity: .82; }
@@ -454,7 +453,7 @@
 
     <article class="feature">
       <div class="copy reveal">
-        <span class="label tone-green">Tags &amp; occasions</span>
+        <span class="label tone-citrus">Tags &amp; occasions</span>
         <h2>Remember what they love.</h2>
         <p>Tag hobbies and friend groups so you can find everyone in your book club or who loves to hike. And save the birthdays and anniversaries that matter to them.</p>
       </div>
