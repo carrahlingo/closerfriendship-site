@@ -276,6 +276,8 @@
   /* Same box for every drawing, so tall and wide ones read at the same size. */
   .moment img { width: 130px; height: 130px; object-fit: contain; object-position: center bottom; transition: transform .25s ease; }
   .tone-citrus { background: var(--citrus-bg); color: var(--citrus-ink); }
+  /* Pale citrus nearly matches the cream page, so the small label pill uses a stronger citrus tint. */
+  .label.tone-citrus { background: #eef0a3; }
   .moment:hover img { transform: translateY(-4px) rotate(-3deg); }
   .moment h3 { color: inherit; }
   .moment p { margin-top: 10px; color: var(--ink); opacity: .82; }
