@@ -192,8 +192,10 @@
   .tape { position: absolute; top: -10px; left: 50%; width: 64px; height: 22px; transform: translateX(-50%) rotate(-4deg); background: rgba(255,255,255,.55); border: 1px solid rgba(43,36,32,.06); }
 
   /* Group chat */
-  .scrap--group { bottom: 0; left: 12%; width: 60%; }
-  .scrap--group .scrap-in { --r: -1deg; animation-delay: -3s; padding: 12px 14px; display: flex; align-items: center; gap: 12px; }
+  .scrap--group { bottom: 0; left: 18%; width: 24%; }
+  /* A real home-screen screenshot: the Messages app with 26 unread. */
+  .scrap--group .scrap-in { --r: -4deg; animation-delay: -3s; padding: 0; overflow: hidden; background: rgb(227, 229, 238); }
+  .scrap--group .scrap-in img { display: block; width: 100%; height: auto; }
   .faces { display: flex; flex: none; }
   .faces i { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--card); margin-left: -8px; }
   .faces i:first-child { margin-left: 0; }
@@ -346,7 +348,7 @@
     .scrap--notes { top: 40%; width: 86%; }
     .scrap--sticky { top: 50%; right: 0; width: 128px; }
     .scrap--sticky .scrap-in { min-height: 106px; font-size: 1.28rem; }
-    .scrap--group { left: 10%; width: 78%; }
+    .scrap--group { left: 12%; width: 34%; }
     .cta img { width: 120px; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -397,11 +399,7 @@
           <div class="scrap-in"><span class="tape"></span>Theo's 1st bday → send gift??</div>
         </div>
         <div class="scrap scrap--group" data-dx="-45" data-dy="45" data-rot="-24">
-          <div class="scrap-in">
-            <div class="faces"><i style="background:#c0b5ff"></i><i style="background:#ff7144"></i><i style="background:#a0bcee"></i></div>
-            <div><p class="group-name">College girls</p><p class="group-last">Jess: ok who's coming to the wedding</p></div>
-            <span class="badge">142</span>
-          </div>
+          <div class="scrap-in"><img src="img/scrap-messages.png" alt="The Messages app icon with 26 unread messages"></div>
         </div>
 
         <div class="home-panel" aria-hidden="true"></div>
