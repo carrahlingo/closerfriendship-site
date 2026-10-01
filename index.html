@@ -1,4 +1,23 @@
-<title>Closer Landing Page</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Closer: For friends who care.</title>
+<meta name="description" content="Closer is a friendship app with no feed and no algorithm. Save the details, get a nudge to check in, and spend more time with your people IRL.">
+<meta name="theme-color" content="#e6e1ff">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Closer">
+<meta property="og:title" content="Closer: For friends who care.">
+<meta property="og:description" content="Your friendships deserve a system. No feed, no algorithm. Just the details, a nudge to check in, and more time with your people IRL.">
+<meta property="og:url" content="https://closerfriendship.com/">
+<meta property="og:image" content="https://closerfriendship.com/img/share-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hand-drawn friends hugging around an iPhone showing the Closer app, with the headline Your friendships deserve a system.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Manrope:wght@400;500;600;700&family=Caveat:wght@600&display=swap">
@@ -20,6 +39,7 @@
     --display: "Fredoka", "Nunito", ui-rounded, system-ui, sans-serif;
     --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
     color-scheme: light;
+    --nav-h: calc(62px + env(safe-area-inset-top, 0px)); /* the sticky top bar's height */
   }
   * { box-sizing: border-box; }
   body {
@@ -44,8 +64,16 @@
   .lede { font-size: 1.15rem; color: var(--muted); max-width: 34ch; }
 
   /* ---------- Nav ---------- */
-  .nav { background: var(--welcome); }
-  .nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-block: 14px; }
+  .nav {
+    position: sticky; top: 0; z-index: 50; background: var(--welcome);
+    padding-top: env(safe-area-inset-top, 0px);
+    transition: box-shadow .25s ease;
+  }
+  .nav.scrolled { box-shadow: 0 1px 0 rgba(49,33,140,.08), 0 6px 18px rgba(49,33,140,.06); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 62px; }
+  /* Fades in once the hero's big button has scrolled out of view. */
+  .nav-cta { opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .25s ease, transform .25s ease, visibility 0s .25s; }
+  .nav.show-cta .nav-cta { opacity: 1; visibility: visible; transform: none; transition: opacity .25s ease, transform .25s ease; }
   .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
   .brand .brand-guys { height: 38px; width: auto; }
   .brand .brand-word { height: 24px; width: auto; }
@@ -132,8 +160,9 @@
     transform: scale(.85); opacity: 0; pointer-events: none;
   }
   @media (min-width: 761px) {
-    .problem.stage-on { height: 160vh; padding-block: 0; }
-    .problem.stage-on .grid { position: sticky; top: env(safe-area-inset-top, 0px); height: 100vh; }
+    .problem.stage-on { height: 140vh; padding-block: 0; }
+    /* Pins just below the sticky top bar. */
+    .problem.stage-on .grid { position: sticky; top: var(--nav-h); height: calc(100vh - var(--nav-h)); }
   }
 
   .mess { position: relative; height: 600px; }
@@ -265,6 +294,9 @@
     padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
   }
   .stage { background: var(--welcome); border-radius: 32px; padding: 32px 24px 0; display: flex; justify-content: center; overflow: hidden; }
+  /* Each panel takes its feature label's color: Updates orange, Nudges lavender, Profiles blue. */
+  .stage--orange { background: var(--orange-bg); }
+  .stage--blue { background: var(--blue-bg); }
   .phone {
     width: min(270px, 70vw); border: 9px solid var(--ink); border-bottom: 0;
     border-radius: 38px 38px 0 0; overflow: hidden; background: var(--ink);
@@ -310,7 +342,39 @@
   .form-note { margin-top: 12px; font-size: .88rem; color: var(--purple-deep); opacity: .8; }
   .thanks { margin-top: 16px; font-weight: 600; color: var(--purple-deep); }
 
+  .founder { margin-top: 22px !important; font-size: .98rem !important; color: var(--purple-deep); }
+  .founder a { color: var(--purple-deep); font-weight: 700; text-underline-offset: 3px; }
+
+  /* ---------- FAQ ---------- */
+  .faq { padding-block: 24px 72px; }
+  .faq-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 48px; align-items: start; }
+  .faq-list { border-top: 1.5px solid var(--line); }
+  .faq details { border-bottom: 1.5px solid var(--line); }
+  .faq summary {
+    list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    padding: 20px 2px; font-family: var(--display); font-weight: 600; font-size: 1.25rem; line-height: 1.25;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  /* A plus that turns into a minus when open. */
+  .faq summary::after {
+    content: ""; flex: none; width: 30px; height: 30px; border-radius: 50%;
+    background:
+      linear-gradient(var(--purple-ink), var(--purple-ink)) center / 12px 2px no-repeat,
+      var(--welcome);
+    transition: transform .2s ease;
+  }
+  .faq details:not([open]) summary::after {
+    background:
+      linear-gradient(var(--purple-ink), var(--purple-ink)) center / 12px 2px no-repeat,
+      linear-gradient(var(--purple-ink), var(--purple-ink)) center / 2px 12px no-repeat,
+      var(--welcome);
+  }
+  .faq summary:hover::after { transform: rotate(90deg); }
+  .faq details p { padding: 0 48px 22px 2px; color: var(--muted); font-size: 1.05rem; max-width: 60ch; }
+  .faq details a { color: var(--purple-ink); font-weight: 600; }
+
   footer { padding-block: 36px; }
+  .foot-link { color: var(--muted); text-underline-offset: 3px; }
   footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: .9rem; }
   footer img { height: 22px; width: auto; opacity: .85; }
   /* Instagram and TikTok are both @closerfriendship, so one handle label covers both. */
@@ -353,15 +417,22 @@
     .scrap--notes { top: 76%; right: 0; left: auto; width: 74%; }
     .scrap--group { top: 7%; left: 3%; bottom: auto; width: 84%; }
     .cta img { width: 120px; }
+    .faq-wrap { grid-template-columns: 1fr; gap: 20px; }
+    .faq summary { font-size: 1.12rem; padding-block: 18px; }
+    .faq details p { padding-right: 8px; }
+    .nav-cta { padding: 9px 14px; font-size: .88rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
+</head>
+<body>
 
 <nav class="nav" aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#" aria-label="Closer home"><img class="brand-guys" src="img/mascot.png" alt=""><img class="brand-word" src="img/wordmark.png" alt=""></a>
+    <a class="btn btn--small nav-cta" href="https://forms.gle/1R8bVFSJ3ZNqVsj6A" target="_blank" rel="noopener">Join the waitlist</a>
   </div>
 </nav>
 
@@ -388,7 +459,7 @@
         <p class="lede">We all want to be the friend people call first. But between the group chats, the DMs, and everything else, the small stuff gets lost.</p>
         <p class="kicker"><span class="hl">Closer gives it a home.<svg class="squiggle" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 7 Q 9.5 1 17 7 T 32 7 T 47 7 T 62 7 T 77 7 T 92 7 T 107 7 T 122 7 T 137 7 T 152 7 T 167 7 T 182 7 T 198 7"/></svg></span> <span class="arrow" aria-hidden="true">→</span></p>
       </div>
-      <div class="mess" role="img" aria-label="Details about friends scattered across a text, an Instagram DM, a Notes list, a sticky note, and a busy group chat, which slip away and are replaced by the same details saved in Closer's Updates tab">
+      <div class="mess" role="img" aria-label="Details about friends scattered across a Messages inbox, an Instagram DM, and a Notes list, which slip away and are replaced by the same details saved in Closer's Updates tab">
         <div class="scrap scrap--dm" data-dx="70" data-dy="-5" data-rot="34">
           <div class="scrap-in"><img src="img/scrap-dm.png" alt="Instagram's direct messages icon with 13 unread messages"></div>
         </div>
@@ -410,14 +481,13 @@
           <div class="up-row"><div class="up-rail"><span class="up-av" style="background:#9381f8;color:#110070">GP</span><span class="up-line"></span></div>
             <div class="up-body"><p class="who">Gwen Pal <span>· Oct 21</span></p><p>Her mom's back surgery went well. Home by the weekend.</p></div></div>
           <div class="up-row"><div class="up-rail"><span class="up-av" style="background:#d8e6ff;color:#4152a7">MK</span><span class="up-line"></span></div>
-            <div class="up-body"><p class="who">Maya Klein <span>· Oct 18</span></p><p>Back from leave on the 22nd! Wants to grab lunch her first week.</p></div></div>
-          <div class="up-row"><div class="up-rail"><span class="up-line" style="margin-top:0"></span></div>
-            <div class="up-body"><p class="up-date">Oct 9</p><p>Theo turns 1 on Oct 26. He's obsessed with board books.</p></div></div>
+            <div class="up-body"><p class="who">Maya Klein <span>· Oct 18</span></p><p>Going to Greece for their anniversary on Oct 30!</p></div></div>
+          <div class="up-row"><div class="up-rail"><span class="up-av" style="background:#e0e446;color:#3c4718">JA</span><span class="up-line"></span></div>
+            <div class="up-body"><p class="who">Joey Amigo <span>· Oct 10</span></p><p>New job starts Monday. Nervous but excited.</p></div></div>
+          <div class="up-row"><div class="up-rail"><span class="up-av" style="background:#c0b5ff;color:#31218c">CR</span><span class="up-line"></span></div>
+            <div class="up-body"><p class="who">Carlo Reyes <span>· Oct 9</span></p><p>His baby boy is Theo. He turns 1 on Oct 26!</p></div></div>
           <div class="up-row"><div class="up-rail"><span class="up-av" style="background:#ff7144;color:#2b1000">DA</span><span class="up-line"></span></div>
             <div class="up-body"><p class="who">Dani Alvarez <span>· Oct 2</span></p><p>Picked a logo designer! Bakery launches in the spring.</p></div></div>
-          <p class="up-section">September</p>
-          <div class="up-row"><div class="up-rail"><span class="up-av" style="background:#e0e446;color:#3c4718">BB</span><span class="up-line"></span></div>
-            <div class="up-body"><p class="who">Brandon Brody <span>· Sep 28</span></p><p>Starts at the design studio Monday. Nervous but excited.</p></div></div>
         </div>
       </div>
     </div>
@@ -430,14 +500,14 @@
         <h2>Capture it in seconds.</h2>
         <p>Tap +, type or talk, and pick their name. No hunting for the right screen, so the detail gets saved before you forget it.</p>
       </div>
-      <div class="stage reveal"><div class="phone"><img src="img/new-update.jpg" alt="Closer's New Update screen with a note about a friend's promotion"></div></div>
+      <div class="stage stage--orange reveal"><div class="phone"><img src="img/new-update.jpg" alt="Closer's New Update screen with a note about a friend's promotion"></div></div>
     </article>
 
     <article class="feature">
       <div class="copy reveal">
         <span class="label tone-purple">Nudges</span>
         <h2>Check in on your terms.</h2>
-        <p>Weekly for your best friend, every few months for your college crew. Set a rhythm for each person, and Closer nudges you when it's time. Every Sunday, you'll get a preview of the week's nudges and occasions.</p>
+        <p>Weekly for your best friend, every few months for your college crew. Set a rhythm for each person, and Closer nudges you when it's time.</p>
       </div>
       <div class="stage reveal"><div class="phone"><img src="img/home-nudges.jpg" alt="Closer's home screen showing check-in nudges for three friends"></div></div>
     </article>
@@ -446,18 +516,9 @@
       <div class="copy reveal">
         <span class="label tone-blue">Profiles</span>
         <h2>Everything about them, in one place.</h2>
-        <p>Life updates, family, where they live, and when you last caught up, all on one page instead of scattered across your apps.</p>
+        <p>Life updates, family, the hobbies they love, and the birthdays that matter, all on one page. Tag friend groups and interests to find everyone in your book club or who loves to hike.</p>
       </div>
-      <div class="stage reveal"><div class="phone"><img src="img/gwen-top-half.jpg" alt="A friend's profile in Closer with updates, nudges, and family"></div></div>
-    </article>
-
-    <article class="feature">
-      <div class="copy reveal">
-        <span class="label tone-citrus">Tags &amp; occasions</span>
-        <h2>Remember what they love.</h2>
-        <p>Tag hobbies and friend groups so you can find everyone in your book club or who loves to hike. And save the birthdays and anniversaries that matter to them.</p>
-      </div>
-      <div class="stage reveal"><div class="phone"><img src="img/gwen-occasions.jpg" alt="A friend's tags and occasions in Closer, including hobbies and a birthday"></div></div>
+      <div class="stage stage--blue reveal"><div class="phone"><img src="img/gwen-top-half.jpg" alt="A friend's profile in Closer with updates, nudges, and family"></div></div>
     </article>
   </section>
 
@@ -500,6 +561,30 @@
     </div>
   </section>
 
+  <section class="faq" id="faq" aria-labelledby="faq-h">
+    <div class="wrap faq-wrap">
+      <h2 id="faq-h" class="reveal">Questions?</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Is Closer free?</summary>
+          <p>Yes. Closer is free to use. Optional extras may come later, but there will never be ads, and your information will never be sold.</p>
+        </details>
+        <details>
+          <summary>Is it on Android?</summary>
+          <p>Not yet. Closer is starting on iPhone, and Android is next. Join the waitlist, tell us what phone you have, and you'll hear as soon as it's ready.</p>
+        </details>
+        <details>
+          <summary>Is what I save private?</summary>
+          <p>Yes. What you save about your friends is for you. There's no feed, no algorithm, and no one browsing your notes. Read the <a href="privacy.html">privacy policy</a>.</p>
+        </details>
+        <details>
+          <summary>When does it launch?</summary>
+          <p>Closer is in testing with a small group of friends right now. Join the waitlist and you'll be the first to know when it opens up.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <section class="cta" id="early" aria-labelledby="cta-h">
     <div class="wrap grid">
       <img src="img/celebrate-orange.png" alt="" aria-hidden="true">
@@ -507,6 +592,7 @@
         <h2 id="cta-h">Be one of the first.</h2>
         <p>Closer is a private space for the people you love, launching soon. Join the waitlist and be the first to know.</p>
         <a class="btn" href="https://forms.gle/1R8bVFSJ3ZNqVsj6A" target="_blank" rel="noopener" style="margin-top:26px">Join the waitlist</a>
+        <p class="founder">Built by Carrah Lingo, for friends who care. <a href="https://carrahlingo.com/closer-app-friendships-needed.html" target="_blank" rel="noopener"><span style="white-space:nowrap">Read why I made it&nbsp;→</span></a></p>
       </div>
     </div>
   </section>
@@ -524,7 +610,7 @@
       </a>
       <span class="handle">@closerfriendship</span>
     </div>
-    <span>© 2026 Closer · closerfriendship.com</span>
+    <span>© 2026 Closer · <a class="foot-link" href="privacy.html">Privacy</a> · <a class="foot-link" href="mailto:closerfriendship@gmail.com">closerfriendship@gmail.com</a></span>
   </div>
 </footer>
 
@@ -630,6 +716,21 @@
     window.addEventListener('load', measure);
     measure();
   })();
+
+  // The top bar stays put as you scroll. Its button waits until the hero's own button
+  // has scrolled away, so there's never two "Join the waitlist" buttons on screen at once.
+  (function () {
+    var nav = document.querySelector('.nav');
+    var heroBtn = document.querySelector('.hero .cta-row');
+    function update() {
+      var r = heroBtn.getBoundingClientRect();
+      nav.classList.toggle('scrolled', window.scrollY > 4);
+      nav.classList.toggle('show-cta', r.bottom < nav.offsetHeight);
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
   // Slide-up on scroll. Content is visible at rest; this only replays the entrance
   // for elements that start below the fold, when they arrive.
   (function () {
@@ -645,3 +746,5 @@
     });
   })();
 </script>
+</body>
+</html>
