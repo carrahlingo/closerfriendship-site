@@ -166,10 +166,10 @@
 
   /* Notes */
   .scrap--notes { top: 43%; left: 0; width: 50%; }
+  /* A real Notes screenshot (dark mode), cropped to the note. */
+  .scrap--notes .scrap-in img { display: block; width: 100%; height: auto; }
   .scrap--notes .scrap-in {
-    --r: -5deg; animation-delay: -4s; overflow: hidden; padding: 0 0 8px;
-    background: #fffdf5 repeating-linear-gradient(to bottom, transparent 0 25px, #efe6cf 25px 26px);
-    background-position: 0 38px;
+    --r: -5deg; animation-delay: -4s; overflow: hidden; padding: 0; background: #000; border-color: #000;
   }
   .notes-bar { display: flex; justify-content: space-between; padding: 8px 14px 6px; background: #fffdf5; color: #d9a400; font-weight: 700; font-size: .78rem; }
   .scrap--notes p { padding: 0 14px; line-height: 26px; }
@@ -395,13 +395,7 @@
           </div>
         </div>
         <div class="scrap scrap--notes" data-dx="-90" data-dy="20" data-rot="-30">
-          <div class="scrap-in">
-            <div class="notes-bar"><span>‹ Notes</span><span>···</span></div>
-            <p class="notes-title">friend stuff</p>
-            <p>Jess new job, starts Mon?</p>
-            <p class="struck">Carlos bday Oct 8</p>
-            <p>Gwen's mom surgery, check in</p>
-          </div>
+          <div class="scrap-in"><img src="img/scrap-notes.png" alt="A Notes app list titled Friend stuff: Joey's new job starts Monday, Gwen's mom might have some sort of surgery, call Maya"></div>
         </div>
         <div class="scrap scrap--sticky" data-dx="65" data-dy="35" data-rot="42">
           <div class="scrap-in"><span class="tape"></span>Theo's 1st bday → send gift??</div>
