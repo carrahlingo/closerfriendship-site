@@ -98,11 +98,6 @@
     opacity: var(--mound, 1);   /* fades as the phone sinks, so it never covers the friends' feet */
   }
   .hero .pitch { font-size: 1.2rem; max-width: 58ch; text-wrap: balance; margin: 16px auto 0; animation: rise .7s both; animation-delay: calc(var(--intro) + .15s); }
-  /* The waitlist sign-up, front and center under the friends on the hill. */
-  .hero-signup { position: relative; z-index: 1; max-width: 520px; margin: 22px auto var(--cta-bottom); text-align: center; animation: rise .7s both; animation-delay: calc(var(--intro) + .95s); }
-  .hero-signup form { margin: 0 auto; justify-content: center; }
-  .hero-signup .phone-pick { justify-content: center; }
-  .hero-signup .form-note { margin-top: 10px; }
   .cta-row { position: relative; z-index: 1; display: flex; justify-content: center; margin: 22px 0 var(--cta-bottom); animation: rise .7s both; animation-delay: calc(var(--intro) + .95s); }
 
 
@@ -372,22 +367,7 @@
       <span class="pair" style="--i:3"><img src="img/pair4.png" alt=""></span>
       <span class="pair" style="--i:4"><img src="img/pair5.png" alt=""></span>
     </div>
-    <div class="hero-signup" id="waitlist">
-          <form id="signup">
-            <label for="first-name" class="sr" style="position:absolute;left:-9999px">First name</label>
-            <input type="text" id="first-name" name="first-name" placeholder="First name" required autocomplete="given-name">
-            <label for="email" class="sr" style="position:absolute;left:-9999px">Email address</label>
-            <input type="email" id="email" name="email" placeholder="you@email.com" required autocomplete="email">
-            <fieldset class="phone-pick">
-              <legend>What kind of phone do you have?</legend>
-              <label><input type="radio" name="phone" value="iPhone" required> iPhone</label>
-              <label><input type="radio" name="phone" value="Android"> Android</label>
-            </fieldset>
-            <button class="btn" type="submit">Join the waitlist</button>
-          </form>
-          <p class="form-note">We'll only email you about Closer. Unsubscribe anytime.</p>
-          <p class="thanks" id="thanks" hidden>You're on the list! 💜 Know a friend who'd love this? Send them closerfriendship.com.</p>
-    </div>
+    <div class="cta-row"><a class="btn" href="https://forms.gle/1R8bVFSJ3ZNqVsj6A" target="_blank" rel="noopener">Join the waitlist</a></div>
   </div>
 </header>
 
@@ -541,7 +521,7 @@
       <div class="reveal">
         <h2 id="cta-h">Be one of the first.</h2>
         <p>Closer is a private space for the people you love, launching soon. Join the waitlist and be the first to know.</p>
-        <a class="btn" href="#waitlist" style="margin-top:26px">Join the waitlist</a>
+        <a class="btn" href="https://forms.gle/1R8bVFSJ3ZNqVsj6A" target="_blank" rel="noopener" style="margin-top:26px">Join the waitlist</a>
       </div>
     </div>
   </section>
@@ -564,19 +544,6 @@
 </footer>
 
 <script>
-  // Sign-ups go into the same Google Form shared on social, so every entry lands in one sheet.
-  var FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSepRnMRdMLHrE34xx1HE6IRxUAZJIcRVmMLNudnH4H-XDwSpw/formResponse';
-  document.getElementById('signup').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var form = e.target, data = new FormData();
-    data.append('entry.2005620554', form.querySelector('#first-name').value.trim());
-    data.append('entry.1045781291', form.querySelector('#email').value.trim());
-    var phone = form.querySelector('input[name="phone"]:checked');
-    if (phone) data.append('entry.1292902221', phone.value);
-    var done = function () { form.hidden = true; document.getElementById('thanks').hidden = false; };
-    // Google doesn't send a readable reply to other sites, so "sent" is the best we can know.
-    fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body: data }).then(done, done);
-  });
   // "The details slip": as you scroll, the scraps slide and fade away, then the Closer card lands.
   (function () {
     var section = document.getElementById('problem');
