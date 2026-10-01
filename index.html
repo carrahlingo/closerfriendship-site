@@ -288,10 +288,14 @@
   .cta img { width: 180px; }
   .cta p { margin-top: 14px; font-size: 1.15rem; max-width: 40ch; }
   form { display: flex; gap: 10px; margin-top: 26px; flex-wrap: wrap; max-width: 480px; }
-  input[type="email"] {
+  input[type="email"], input[type="text"] {
     flex: 1 1 220px; font: inherit; padding: 14px 16px; border-radius: 14px;
     border: 2px solid var(--lavender); background: var(--card); color: var(--ink); min-width: 0;
   }
+  .phone-pick { flex: 1 1 100%; border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; color: var(--purple-deep); }
+  .phone-pick legend { float: left; font-weight: 600; margin-right: 6px; padding: 0; }
+  .phone-pick label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  .phone-pick input { accent-color: var(--purple-ink); width: 18px; height: 18px; }
   .form-note { margin-top: 12px; font-size: .88rem; color: var(--purple-deep); opacity: .8; }
   .thanks { margin-top: 16px; font-weight: 600; color: var(--purple-deep); }
 
@@ -518,12 +522,19 @@
         <h2 id="cta-h">Be one of the first.</h2>
         <p>Closer is a private space for the people you love, launching soon on iPhone. Join the early testers and help shape what it becomes.</p>
         <form id="signup">
+          <label for="first-name" class="sr" style="position:absolute;left:-9999px">First name</label>
+          <input type="text" id="first-name" name="first-name" placeholder="First name" required autocomplete="given-name">
           <label for="email" class="sr" style="position:absolute;left:-9999px">Email address</label>
           <input type="email" id="email" name="email" placeholder="you@email.com" required autocomplete="email">
-          <button class="btn" type="submit">Join the list</button>
+          <fieldset class="phone-pick">
+            <legend>What kind of phone do you have?</legend>
+            <label><input type="radio" name="phone" value="iPhone" required> iPhone</label>
+            <label><input type="radio" name="phone" value="Android"> Android</label>
+          </fieldset>
+          <button class="btn" type="submit">Join the waitlist</button>
         </form>
-        <p class="form-note">Preview only: this sign-up isn't connected yet.</p>
-        <p class="thanks" id="thanks" hidden>Thanks! In the live site, this is where your email gets saved.</p>
+        <p class="form-note">We'll only email you about Closer. Unsubscribe anytime.</p>
+        <p class="thanks" id="thanks" hidden>You're on the list! 💜 Know a friend who'd love this? Send them closerfriendship.com.</p>
       </div>
     </div>
   </section>
@@ -546,9 +557,18 @@
 </footer>
 
 <script>
+  // Sign-ups go into the same Google Form shared on social, so every entry lands in one sheet.
+  var FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSepRnMRdMLHrE34xx1HE6IRxUAZJIcRVmMLNudnH4H-XDwSpw/formResponse';
   document.getElementById('signup').addEventListener('submit', function (e) {
     e.preventDefault();
-    document.getElementById('thanks').hidden = false;
+    var form = e.target, data = new FormData();
+    data.append('entry.2005620554', form.querySelector('#first-name').value.trim());
+    data.append('entry.1045781291', form.querySelector('#email').value.trim());
+    var phone = form.querySelector('input[name="phone"]:checked');
+    if (phone) data.append('entry.1292902221', phone.value);
+    var done = function () { form.hidden = true; document.getElementById('thanks').hidden = false; };
+    // Google doesn't send a readable reply to other sites, so "sent" is the best we can know.
+    fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body: data }).then(done, done);
   });
   // "The details slip": as you scroll, the scraps slide and fade away, then the Closer card lands.
   (function () {
