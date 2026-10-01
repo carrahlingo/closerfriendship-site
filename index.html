@@ -127,7 +127,7 @@
   /* The same soft lavender panel as the feature rows, growing in behind the phone. */
   .home-panel {
     /* Same width, corners, and top padding as the feature panels below; only taller. */
-    position: absolute; left: 0; right: 0; bottom: 0; top: -32px;
+    position: absolute; left: 0; right: 0; bottom: 0; top: calc(100% - 472px); /* the phone's 440px plus 32px of top padding */
     background: var(--welcome); border-radius: 32px;
     transform: scale(.85); opacity: 0; pointer-events: none;
   }
