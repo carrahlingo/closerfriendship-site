@@ -149,7 +149,7 @@
   .when { font-size: .7rem; color: #a79c90; }
 
   /* Messages */
-  .scrap--text { top: 2%; left: 0; width: 62%; }
+  .scrap--text { top: 0; left: 0; width: 58%; }
   /* A real Messages screenshot (dark mode). */
   .scrap--text .scrap-in { --r: -3deg; padding: 0; overflow: hidden; background: #000; border-color: #000; }
   .scrap--text .scrap-in img { display: block; width: 100%; height: auto; }
@@ -158,7 +158,7 @@
   .scrap--text .when { display: block; margin-top: 6px; }
 
   /* Instagram DM */
-  .scrap--dm { top: 0; right: 4%; width: 24%; }
+  .scrap--dm { top: 2%; right: 4%; width: 22%; }
   /* A real Instagram screenshot: the DM icon with 13 unread. */
   .scrap--dm .scrap-in { --r: 4deg; padding: 0; overflow: hidden; animation-delay: -2s; background: #000; border-color: #000; }
   .scrap--dm .scrap-in img { display: block; width: 100%; height: auto; }
@@ -169,7 +169,7 @@
   .scrap--dm .when { display: block; margin-top: 6px; text-align: right; }
 
   /* Notes */
-  .scrap--notes { top: 36%; right: 0; left: auto; width: 68%; }
+  .scrap--notes { top: 52%; right: 0; left: auto; width: 60%; }
   /* A real Notes screenshot (dark mode), cropped to the note. */
   .scrap--notes .scrap-in img { display: block; width: 100%; height: auto; }
   .scrap--notes .scrap-in {
@@ -192,9 +192,9 @@
   .tape { position: absolute; top: -10px; left: 50%; width: 64px; height: 22px; transform: translateX(-50%) rotate(-4deg); background: rgba(255,255,255,.55); border: 1px solid rgba(43,36,32,.06); }
 
   /* Group chat */
-  .scrap--group { bottom: 2%; left: 6%; width: 22%; }
-  /* A real home-screen screenshot: the Messages app with 26 unread. */
-  .scrap--group .scrap-in { --r: -4deg; animation-delay: -3s; padding: 0; overflow: hidden; background: rgb(227, 229, 238); }
+  .scrap--group { top: 22%; left: 4%; bottom: auto; width: 36%; }
+  /* A real Messages inbox screenshot, with names and messages swapped for the site's story. */
+  .scrap--group .scrap-in { --r: -3deg; animation-delay: -3s; padding: 0; overflow: hidden; background: #000; border-color: #000; }
   .scrap--group .scrap-in img { display: block; width: 100%; height: auto; }
   .faces { display: flex; flex: none; }
   .faces i { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--card); margin-left: -8px; }
@@ -343,10 +343,10 @@
     .moment-grid { grid-template-columns: 1fr; }
     .moment img { width: 92px; height: 92px; }
     .mess { height: 460px; }
-    .scrap--text { top: 2%; left: 0; width: 70%; }
-    .scrap--dm { top: 0; right: 0; width: 28%; }
-    .scrap--notes { top: 34%; right: 0; left: auto; width: 90%; }
-    .scrap--group { bottom: 2%; left: 4%; width: 30%; }
+    .scrap--text { top: 0; left: 0; width: 70%; }
+    .scrap--dm { top: 0; right: 0; width: 26%; }
+    .scrap--notes { top: 58%; right: 0; left: auto; width: 72%; }
+    .scrap--group { top: 18%; left: 0; bottom: auto; width: 44%; }
     .cta img { width: 120px; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -394,7 +394,7 @@
           <div class="scrap-in"><img src="img/scrap-notes.png" alt="A Notes app list titled Friend stuff: Joey's new job starts Monday, Gwen's mom might have some sort of surgery, call Maya"></div>
         </div>
         <div class="scrap scrap--group" data-dx="-45" data-dy="45" data-rot="-24">
-          <div class="scrap-in"><img src="img/scrap-messages.png" alt="The Messages app icon with 26 unread messages"></div>
+          <div class="scrap-in"><img src="img/scrap-inbox.png" alt="A Messages inbox full of unread threads: College girls, Maya, Dani, Jess, Gwen and Fam"></div>
         </div>
 
         <div class="home-panel" aria-hidden="true"></div>
