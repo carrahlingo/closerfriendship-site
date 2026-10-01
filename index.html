@@ -149,7 +149,7 @@
   .when { font-size: .7rem; color: #a79c90; }
 
   /* Messages */
-  .scrap--text { top: 0; left: 2%; width: 68%; }
+  .scrap--text { top: 2%; left: 0; width: 62%; }
   /* A real Messages screenshot (dark mode). */
   .scrap--text .scrap-in { --r: -3deg; padding: 0; overflow: hidden; background: #000; border-color: #000; }
   .scrap--text .scrap-in img { display: block; width: 100%; height: auto; }
@@ -158,7 +158,7 @@
   .scrap--text .when { display: block; margin-top: 6px; }
 
   /* Instagram DM */
-  .scrap--dm { top: 18%; right: 2%; width: 26%; }
+  .scrap--dm { top: 0; right: 4%; width: 24%; }
   /* A real Instagram screenshot: the DM icon with 13 unread. */
   .scrap--dm .scrap-in { --r: 4deg; padding: 0; overflow: hidden; animation-delay: -2s; background: #000; border-color: #000; }
   .scrap--dm .scrap-in img { display: block; width: 100%; height: auto; }
@@ -169,11 +169,11 @@
   .scrap--dm .when { display: block; margin-top: 6px; text-align: right; }
 
   /* Notes */
-  .scrap--notes { top: 40%; left: 0; width: 64%; }
+  .scrap--notes { top: 36%; right: 0; left: auto; width: 68%; }
   /* A real Notes screenshot (dark mode), cropped to the note. */
   .scrap--notes .scrap-in img { display: block; width: 100%; height: auto; }
   .scrap--notes .scrap-in {
-    --r: -5deg; animation-delay: -4s; overflow: hidden; padding: 0; background: #000; border-color: #000;
+    --r: 3deg; animation-delay: -4s; overflow: hidden; padding: 0; background: #000; border-color: #000;
   }
   .notes-bar { display: flex; justify-content: space-between; padding: 8px 14px 6px; background: #fffdf5; color: #d9a400; font-weight: 700; font-size: .78rem; }
   .scrap--notes p { padding: 0 14px; line-height: 26px; }
@@ -192,7 +192,7 @@
   .tape { position: absolute; top: -10px; left: 50%; width: 64px; height: 22px; transform: translateX(-50%) rotate(-4deg); background: rgba(255,255,255,.55); border: 1px solid rgba(43,36,32,.06); }
 
   /* Group chat */
-  .scrap--group { bottom: 0; left: 18%; width: 24%; }
+  .scrap--group { bottom: 2%; left: 6%; width: 22%; }
   /* A real home-screen screenshot: the Messages app with 26 unread. */
   .scrap--group .scrap-in { --r: -4deg; animation-delay: -3s; padding: 0; overflow: hidden; background: rgb(227, 229, 238); }
   .scrap--group .scrap-in img { display: block; width: 100%; height: auto; }
@@ -343,12 +343,10 @@
     .moment-grid { grid-template-columns: 1fr; }
     .moment img { width: 92px; height: 92px; }
     .mess { height: 460px; }
-    .scrap--text { width: 88%; }
-    .scrap--dm { top: 18%; width: 36%; }
-    .scrap--notes { top: 40%; width: 86%; }
-    .scrap--sticky { top: 50%; right: 0; width: 128px; }
-    .scrap--sticky .scrap-in { min-height: 106px; font-size: 1.28rem; }
-    .scrap--group { left: 12%; width: 34%; }
+    .scrap--text { top: 2%; left: 0; width: 70%; }
+    .scrap--dm { top: 0; right: 0; width: 28%; }
+    .scrap--notes { top: 34%; right: 0; left: auto; width: 90%; }
+    .scrap--group { bottom: 2%; left: 4%; width: 30%; }
     .cta img { width: 120px; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -392,11 +390,8 @@
         <div class="scrap scrap--dm" data-dx="70" data-dy="-5" data-rot="34">
           <div class="scrap-in"><img src="img/scrap-dm.png" alt="Instagram's direct messages icon with 13 unread messages"></div>
         </div>
-        <div class="scrap scrap--notes" data-dx="-90" data-dy="20" data-rot="-30">
+        <div class="scrap scrap--notes" data-dx="85" data-dy="15" data-rot="28">
           <div class="scrap-in"><img src="img/scrap-notes.png" alt="A Notes app list titled Friend stuff: Joey's new job starts Monday, Gwen's mom might have some sort of surgery, call Maya"></div>
-        </div>
-        <div class="scrap scrap--sticky" data-dx="65" data-dy="35" data-rot="42">
-          <div class="scrap-in"><span class="tape"></span>Theo's 1st bday → send gift??</div>
         </div>
         <div class="scrap scrap--group" data-dx="-45" data-dy="45" data-rot="-24">
           <div class="scrap-in"><img src="img/scrap-messages.png" alt="The Messages app icon with 26 unread messages"></div>
