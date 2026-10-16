@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Manrope:wght@500;700;800&display=swap">
+<style>
+  /* Source for img/share-card-*.png. Render at 1200x630 with headless Chrome. */
+  :root { --welcome:#e6e1ff; --cream:#faf7f2; --ink:#2b2420; }
+  html, body { margin:0; }
+  body { width:1200px; height:630px; position:relative; overflow:hidden; background:var(--welcome); font-family:"Manrope", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+  .brand { position:absolute; left:80px; top:52px; display:flex; align-items:center; gap:12px; }
+  .brand .guys { height:52px; }
+  .brand .word { height:40px; }
+  h1 { position:absolute; left:80px; top:222px; margin:0; font-family:"Fredoka", sans-serif; font-weight:600; font-size:76px; line-height:1.04; letter-spacing:-0.02em; color:var(--ink); }
+  .phone { position:absolute; z-index:1; left:748px; top:118px; width:380px; height:600px; border:12px solid var(--ink); border-bottom:0; border-radius:56px 56px 0 0; overflow:hidden; background:var(--ink); box-shadow:0 30px 60px rgba(49,33,140,.18); }
+  .phone img { width:100%; display:block; }
+  .notif { position:absolute; z-index:4; left:612px; top:66px; width:430px; display:flex; gap:16px; align-items:flex-start; padding:18px 22px; border-radius:28px; background:rgba(255,255,255,.96); box-shadow:0 14px 36px rgba(49,33,140,.20); }
+  .notif img { width:56px; height:56px; border-radius:13px; flex:none; }
+  .notif .t { display:flex; justify-content:space-between; font-weight:800; font-size:26px; color:#1a1613; }
+  .notif .t span { font-weight:600; font-size:18px; color:#6f655d; padding-top:5px; }
+  .notif .b { font-weight:500; font-size:23px; color:#2b2420; margin-top:2px; }
+  .hill { position:absolute; z-index:2; left:-15%; right:-15%; bottom:-1px; height:96px; background:var(--cream); border-radius:50% 50% 0 0 / 100% 100% 0 0; }
+</style></head>
+<body>
+  <div class="brand"><img class="guys" src="../img/mascot.png" alt=""><img class="word" src="../img/wordmark.png" alt=""></div>
+  <h1>Your friendships<br>deserve a system.</h1>
+  <div class="phone"><img src="../img/home-nudges-v2.jpg" alt=""></div>
+  <div class="notif"><img src="../img/apple-touch-icon.png" alt=""><div style="flex:1"><div class="t">Nudge: Maya 💜 <span>now</span></div><div class="b">Coffee, a call, or a quick text.</div></div></div>
+  <div class="hill"></div>
+</body></html>
