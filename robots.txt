@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /share/
+Sitemap: https://closerfriendship.com/sitemap.xml
